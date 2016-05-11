@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Web Ledger 1.0</title>
+    <title>Linked Data Ledger 1.0</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
@@ -17,7 +17,7 @@ var respecConfig = {
   specStatus:           "CG-DRAFT",
 
   // the specification's short name, as in http://www.w3.org/TR/short-name/
-  shortName:            "web-ledger",
+  shortName:            "ld-ledger",
 
   // if you wish the publication date to be other than today, set this
   // publishDate:  "2009-08-06",
@@ -28,7 +28,7 @@ var respecConfig = {
   // previousMaturity:  "WD",
 
   // if there a publicly available Editor's Draft, this is the link
-  edDraftURI:           "https://web-payments.github.io/web-ledger/",
+  edDraftURI:           "https://web-payments.github.io/ld-ledger/",
 
   // if this is a LCWD, uncomment and set the end of its review period
   // lcEnd: "2009-08-05",
@@ -89,10 +89,11 @@ var respecConfig = {
 <section id="abstract">
   <p>
 This document outlines a data model and syntax for expressing a
-set of ordered events in way that can be cryptographically verified. This
-technology is useful when coordinating the recording of events, such as
-financial transactions, recording the transfer of property, or time-stamped
-data that must be shared among coordinating parties.
+set of ordered events (aka ledger) in way that can be cryptographically
+verified. This technology is useful when coordinating the recording
+of events, such as financial transactions, recording the transfer of
+property, or time-stamped data that must be shared among coordinating
+parties.
   </p>
 </section>
 
@@ -413,10 +414,10 @@ typically an operational rule entry.
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
   "transaction": {
-    "source": "lei:289239873987",
-    "destination": "lei:238927938298",
+    "source": "lei:HB7FFAZIO0MZ8PP8OE26", // compliant to ISO 17442 standard
+    "destination": "lei:PP8OEHB7FFAZIO0MZ826",
     "transfer": {
-      "loanId": "lei:9203848793278"
+      "loanId": "lei:FAZIO0PP8OEHB7FMZ826"
     }
   }
   "prevId": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
@@ -436,16 +437,67 @@ typically an operational rule entry.
     <h2>Checkpointing</h2>
 
     <p>
-
+A checkpoint log is an entry in the ledger that
     </p>
+
+    <p class="issue">
+Don't really know if checkpoints are /that/ useful without
+<code>prevId</code> entries. Don't really know if checkpoints
+are that useful at all? Seems to be the only use is a link
+to a compressed/checksummed file?
+    </p>
+
+    <pre class="example highlight" title="Example checkpoint entry">
+{
+  "@context": "https://w3id.org/webledger/v1",
+  "id": "https://example.org/ledgers/example/6372463",
+  "type": "CheckpointEntry",
+  "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
+  "checksum": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
+  "signature": [{
+    "type": "LinkedDataSignature2015",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://example.org/i/master/keys/32",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there may be multiple counter-signatures here
+  ]
+}
+    </pre>
   </section>
 
-  <section id="rules">
+  <section id="linking">
     <h2>Linking to Other Ledgers</h2>
 
-    <p>
-
+    <p class="issue">
     </p>
+
+    <pre class="example highlight" title="Example checkpoint entry">
+{
+  "@context": [
+    "https://w3id.org/webledger/v1",
+    "https://w3id.org/cryptocurrencies/v1"
+  ],
+  "id": "https://example.org/ledgers/example/5",
+  "transaction": [{
+    "source": "https://example.org/accounts/jane/7",
+    "destination": "https://foo.com/accounts/bob/3",
+    "remoteLedger": "https://foo.com/ledgers/blah/3445",
+    "transfer": {
+      "amount": "23.45",
+      "currency": "USD"
+    }
+  }, ... // there could be hundreds to thousands more of these
+  ]
+  "nextId": "https://example.org/ledgers/example/6"
+  "signature": {
+    "type": "ProofOfWorkSignature2016",
+    "created": "2017-01-24T02:11:16Z",
+    "creator": "bytecoin:key:23fa73bb201c738d",
+    "signatureValue": "90D4cFqT/yKPiwd/GFzv...NJGL=="
+  }
+}
+    </pre>
+
   </section>
 
 </section>
