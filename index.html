@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Linked Data Ledger 1.0</title>
+    <title>Flex 1.0</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
@@ -17,7 +17,10 @@ var respecConfig = {
   specStatus:           "CG-DRAFT",
 
   // the specification's short name, as in http://www.w3.org/TR/short-name/
-  shortName:            "ld-ledger",
+  shortName:            "flex",
+
+  // subtitle for the specification
+  subtitle: "A flexible Linked Data ledger format for the Web",
 
   // if you wish the publication date to be other than today, set this
   // publishDate:  "2009-08-06",
@@ -28,7 +31,7 @@ var respecConfig = {
   // previousMaturity:  "WD",
 
   // if there a publicly available Editor's Draft, this is the link
-  edDraftURI:           "https://web-payments.github.io/ld-ledger/",
+  edDraftURI:           "https://web-payments.github.io/flex/",
 
   // if this is a LCWD, uncomment and set the end of its review period
   // lcEnd: "2009-08-05",
@@ -91,9 +94,11 @@ var respecConfig = {
 This document outlines a data model and syntax for expressing a
 set of ordered events (aka ledger) in way that can be cryptographically
 verified. This technology is useful when coordinating the recording
-of events, such as financial transactions, recording the transfer of
-property, or time-stamped data that must be shared among coordinating
-parties.
+of events, such as financial transactions, transfer of property, or
+time-stamped data that must be shared among coordinating parties. A
+primary goal of this ledger format is flexibility, allowing the
+pluggability of consensus algorithms, data structures for recording
+history, and the type of data that can be stored in the ledger.
   </p>
 </section>
 
@@ -183,8 +188,7 @@ certain parts of the ledger can be optimized.
 
   <p>
 To provide the greatest amount of flexibility, the data model is a graph.
-There is only one well studied and deployed formalization of a graph data
-model and that is RDF.
+If a formalized data model is desired, RDF may be utilized but is not necessary.
   </p>
 </section>
 
@@ -194,8 +198,8 @@ model and that is RDF.
   <p>
 To ensure that the syntax will be easily adopted by developers, and supports
 a graph-based data model, it is RECOMMENDED that the implementation syntax is
-JSON-LD. Other RDF-compatible syntaxes MAY also be used to express the ledger
-semantics.
+JSON-LD (or similarly compatible syntax). 
+Other RDF-compatible syntaxes MAY also be used to express the ledger semantics.
   </p>
 </section>
 
@@ -219,7 +223,7 @@ typically an operational rule entry.
 
     <pre class="example highlight" title="Example genesis entry for a simple signature-based ledger">
 {
-  "@context": "https://w3id.org/webledger/v1",
+  "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
   "history": "Sequential",
   "consensusMechanism": {
@@ -238,7 +242,7 @@ typically an operational rule entry.
 
     <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
 {
-  "@context": "https://w3id.org/webledger/v1",
+  "@context": "https://w3id.org/flex/v1",
   "id": "https://example.us.gov/ledgers/emergency-response/1",
   "history": "Sequential",
   "consensusMechanism": {
@@ -262,7 +266,7 @@ typically an operational rule entry.
     <pre class="example highlight" title="Example genesis entry for a cryptocurrency ledger">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:23fa73bb201c738d",
@@ -287,7 +291,7 @@ typically an operational rule entry.
     <pre class="example highlight" title="Example genesis entry for a consortium-based debt obligation ledger">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
@@ -328,7 +332,7 @@ typically an operational rule entry.
     <pre class="example highlight" title="Example genesis entry for a simple signature-based ledger">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
@@ -356,7 +360,7 @@ typically an operational rule entry.
     <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/dhs/credentials/v1",
   ]
   "id": "https://example.us.gov/ledgers/emergency-response/2",
@@ -381,7 +385,7 @@ typically an operational rule entry.
     <pre class="example highlight" title="Example genesis entry for a cryptocurrency ledger">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:83ba663df28372718",
@@ -409,7 +413,7 @@ typically an operational rule entry.
     <pre class="example highlight" title="Example genesis entry for a consortium-based debt obligation ledger">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/real-estate/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
@@ -449,7 +453,7 @@ to a compressed/checksummed file?
 
     <pre class="example highlight" title="Example checkpoint entry">
 {
-  "@context": "https://w3id.org/webledger/v1",
+  "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
   "type": "CheckpointEntry",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
@@ -474,7 +478,7 @@ to a compressed/checksummed file?
     <pre class="example highlight" title="Example checkpoint entry">
 {
   "@context": [
-    "https://w3id.org/webledger/v1",
+    "https://w3id.org/flex/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example.org/ledgers/example/5",
