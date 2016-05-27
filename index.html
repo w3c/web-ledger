@@ -224,14 +224,16 @@ typically an operational rule entry.
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "history": "Sequential",
-  "consensusMechanism": {
-    "protocol": "Signature",
-    "signatory": "https://webville.va.us.gov/i/planning-department"
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
   },
-  "nextId": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2016-02-21T02:10:21Z",
     "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
     "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
@@ -243,18 +245,20 @@ typically an operational rule entry.
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.us.gov/ledgers/emergency-response/1",
-  "history": "Sequential",
-  "consensusMechanism": {
-    "protocol": "Signature",
-    "signatory": [
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": [
       "https://fema.example.us.gov/i/ofp",
       "https://tsa.example.us.gov/i/vclaims",
       "https://dhs.example.us.gov/i/credentialing",
-    ]
+    ],
+    "minimumSignaturesRequired": 1
   },
-  "nextId": "https://example.us.gov/ledgers/emergency-response/2",
+  "nextEvent": "https://example.us.gov/ledgers/emergency-response/2",
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2016-09-19T17:19:52Z",
     "creator": "https://fema.example.gov/i/credentialing/keys/7f6",
     "signatureValue": "pjeyuFq9idhwHGfGFzv...9fjsk=="
@@ -269,19 +273,17 @@ typically an operational rule entry.
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:23fa73bb201c738d",
-  "history": "Sequential",
-  "consensusMechanism": {
-    "protocol": "ProofOfWork",
-    "algorithm": {
-      "type": "Scrypt",
-      "difficulty": 10
-    }
+  "type": "ConfigurationEvent",
+  "storageMechanism": "MerkleTree",
+  "consensusAlgorithm": {
+    "type": "ProofOfWork2016",
+    "proofOfWorkAlgorithm": "Bitcoin",
+    "targetDifficulty": "199312067531.243"
   },
-  "nextId": "bytecoin:block:83ba663df28372718"
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2017-01-24T02:10:21Z",
-    "creator": "bytecoin:23fa73bb201c738d/keys/23f3b2c819",
+    "creator": "bytecoin:keys:23f3b2c8183bdd52aff689",
     "signatureValue": "90D4cFqT/yKPiwd/GFzv...NJGL=="
   }
 }
@@ -294,23 +296,22 @@ typically an operational rule entry.
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "history": "DirectedAcyclicGraph",
-  "consensusMechanism": {
-    "protocol": "MultipleSignatures",
-    "algorithm": {
-      "type": "MofN",
-      "minimumSignatures": 4,
-      "signatories": [
-        "https://regulator-a.gov/i/bank-oversight",
-        "https://regulator-b.gov/i/consumer-protection",
-        "https://bank-x.com/i/housing",
-        "https://bank-y.com/i/corporate-loans",
-        "https://bank-z.com/i/swaps",
-      ]
-    }
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfBallot2015",
+    "quorum": "0.51",
+    "minimumVotePercentage": "0.67",
+    "approvedSigner": [
+      "https://regulator-a.gov/i/bank-oversight",
+      "https://regulator-b.gov/i/consumer-protection",
+      "https://bank-x.com/i/housing",
+      "https://bank-y.com/i/corporate-loans",
+      "https://bank-z.com/i/swaps",
+    ]
   },
   "signature": [{
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2018-04-16T19:34:18Z",
     "creator": "https://regulator-b.gov/i/consumer-protection/keys/2f73",
     "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
@@ -322,33 +323,36 @@ typically an operational rule entry.
   </section>
 
   <section id="content">
-    <h2>Adding Content</h2>
+    <h2>Adding Application-specific Data</h2>
 
     <p>
 
     </p>
 
-    <pre class="example highlight" title="Example genesis entry for a simple signature-based ledger">
+    <pre class="example highlight" title="Example storage event for a real-estate transaction.">
 {
   "@context": [
     "https://w3id.org/flex/v1",
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
-  "propertyAddress": {
-    "street": "263 Main Street",
-    "locality": "Webville",
-    "region": "VA",
-    "postalCode": "24736-3726",
-    "country": "US"
-  },
-  "owner": {
-    "name": "Jane Smith",
-    "postalAddress": { ... }
-  },
-  "prevId": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "type": "StorageEvent",
+  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "replaceObject": [{
+    "id": "https://vhda.va.us.gov/properties/3829344",
+    "propertyAddress": {
+      "street": "263 Main Street",
+      "locality": "Webville",
+      "region": "VA",
+      "postalCode": "24736-3726",
+      "country": "US"
+    },
+    "owner": {
+      "name": "Jane Smith",
+      "postalAddress": { ... }
+  }],
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2016-02-22T02:10:21Z",
     "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
     "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
@@ -356,24 +360,27 @@ typically an operational rule entry.
 }
     </pre>
 
-    <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
+    <pre class="example highlight" title="Example storage event for a verifiable claim transaction">
 {
   "@context": [
     "https://w3id.org/flex/v1",
     "https://w3id.org/dhs/credentials/v1",
-  ]
+  ],
   "id": "https://example.us.gov/ledgers/emergency-response/2",
-  "type": ["Credential", "EmergencyResponseCredential"]
-  "claim": {
-    "id": "did:3f32-23425-53-241442",
-    "emsLicense": {
-      "id": "FF-37-48573",
-      "status": "valid"
-    },
-  },
-  "nextId": "https://example.us.gov/ledgers/emergency-response/3",
+  "type": "StorageEvent",
+  "previousEvent": "https://example.us.gov/ledgers/emergency-response/1",
+  "replaceObject": [{
+    "id": "https://example.us.gov/credentials/234234542",
+    "type": ["Credential", "EmergencyResponseCredential"]
+    "claim": {
+      "id": "did:3f32-23425-53-241442",
+      "emsLicense": {
+        "id": "FF-37-48573",
+        "status": "valid"
+      },
+  }],
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2016-09-19T17:19:52Z",
     "creator": "https://fema.example.gov/i/credentialing/keys/7f6",
     "signatureValue": "pjeyuFq9idhwHGfGFzv...9fjsk=="
@@ -381,25 +388,28 @@ typically an operational rule entry.
 }
     </pre>
 
-    <pre class="example highlight" title="Example genesis entry for a cryptocurrency ledger">
+    <pre class="example highlight" title="Example storage event for a crytocurrency state machine">
 {
   "@context": [
     "https://w3id.org/flex/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:83ba663df28372718",
-  "input": [...], // the inputs to the block
-  "transaction": [{
-    "source": "bytecoin:2892316f63778",
-    "destination": "bytecoin:983bba526fd6",
-    "transfer": {
-      "amount": "0.3928621",
-      "currency": "bytecoin:currency:bco"
-    }
-  }, ... // there could be hundreds to thousands more of these
-  ]
-  "output": [...], // the outputs from the block
-  "nextId": "bytecoin:block:f2837271883ba663d"
+  "type": "StorageEvent",
+  "previousEvent": "bytecoin:block:271863df2883ba637",
+  "addObject": [{
+    "transaction": [{
+      "https://w3id.org/bytecoin/v1"
+      "source": "bytecoin:2892316f63778",
+      "destination": "bytecoin:983bba526fd6",
+      "input": [...], // the inputs to the transaction
+      "output": [...], // the outputs from the transaction
+      "transfer": {
+        "amount": "0.3928621",
+        "currency": "bytecoin:currency:bco"
+      }
+    }], ... // there could be hundreds to thousands more of these
+  }]
   "signature": {
     "type": "ProofOfWorkSignature2016",
     "created": "2017-01-24T02:11:16Z",
@@ -409,23 +419,27 @@ typically an operational rule entry.
 }
     </pre>
 
-    <pre class="example highlight" title="Example genesis entry for a consortium-based debt obligation ledger">
+    <pre class="example highlight" title="Example storage event for a legal entity identifier transaction for the financial industry">
 {
   "@context": [
     "https://w3id.org/flex/v1",
     "https://w3id.org/real-estate/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
-  "transaction": {
-    "source": "lei:HB7FFAZIO0MZ8PP8OE26", // compliant to ISO 17442 standard
-    "destination": "lei:PP8OEHB7FFAZIO0MZ826",
-    "transfer": {
-      "loanId": "lei:FAZIO0PP8OEHB7FMZ826"
+  "type": "StorageEvent",
+  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "addObject": [{
+    "id": "https://example-consortium.com/private-ledgers/loans/real-estate/transactions/238947234",
+    "transaction": {
+      "source": "lei:HB7FFAZIO0MZ8PP8OE26", // compliant to ISO 17442 standard
+      "destination": "lei:PP8OEHB7FFAZIO0MZ826",
+      "transfer": {
+        "loanId": "lei:FAZIO0PP8OEHB7FMZ826"
+      }
     }
-  }
-  "prevId": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  }],
   "signature": [{
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2018-04-16T19:34:18Z",
     "creator": "https://regulator-b.gov/i/consumer-protection/keys/2f73",
     "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
@@ -450,15 +464,15 @@ are that useful at all? Seems to be the only use is a link
 to a compressed/checksummed file?
     </p>
 
-    <pre class="example highlight" title="Example checkpoint entry">
+    <pre class="example highlight" title="Example checkpoint event used to serialize">
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
-  "type": "CheckpointEntry",
+  "type": "CheckpointEvent",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
-  "checksum": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
+  "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
-    "type": "LinkedDataSignature2015",
+    "type": "LinkedDataSignature2016",
     "created": "2018-04-16T19:34:18Z",
     "creator": "https://example.org/i/master/keys/32",
     "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
@@ -474,24 +488,26 @@ to a compressed/checksummed file?
     <p class="issue">
     </p>
 
-    <pre class="example highlight" title="Example checkpoint entry">
+    <pre class="example highlight" title="Example of a transaction linking to a transaction in another ledger">
 {
   "@context": [
     "https://w3id.org/flex/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example.org/ledgers/example/5",
-  "transaction": [{
-    "source": "https://example.org/accounts/jane/7",
-    "destination": "https://foo.com/accounts/bob/3",
-    "remoteLedger": "https://foo.com/ledgers/blah/3445",
-    "transfer": {
-      "amount": "23.45",
-      "currency": "USD"
-    }
-  }, ... // there could be hundreds to thousands more of these
-  ]
-  "nextId": "https://example.org/ledgers/example/6"
+  "type": "StorageEvent",
+  "previousEvent": "example.org/ledgers/example/4",
+  "addObject": [{
+    "transaction": [{
+      "source": "https://example.org/accounts/jane/7",
+      "destination": "https://foo.com/accounts/bob/3",
+      "remoteLedger": "https://foo.com/ledgers/blah/3445",
+      "transfer": {
+        "amount": "23.45",
+        "currency": "USD"
+      }
+    }], ... // there could be hundreds to thousands more of these
+  }]
   "signature": {
     "type": "ProofOfWorkSignature2016",
     "created": "2017-01-24T02:11:16Z",
