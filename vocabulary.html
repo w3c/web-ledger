@@ -16,7 +16,7 @@
 
           // the specification's short name, as in http://www.w3.org/TR/short-name/
           shortName:        "flex-vocabulary",
-          
+
           // The by-line for the specification
           subtitle: "A vocabulary for building flexible Linked Data ledgers",
 
@@ -106,18 +106,99 @@ until it is ratified as an official document via the World Wide Web Consortium.
       </p>
     </section>
 
-    <section>
-      <h2>Classes</h2>
+    <section id='sotd'>
+      <p>
+This is an experimental vocabulary and its use is not recommended at this time.
+      </p>
+    </section>
 
-      <section id="" about="https://w3id.org/flex#"
+    <section>
+      <h2>Event Classes</h2>
+
+      <section id="CheckpointEvent" about="https://w3id.org/flex#CheckpointEvent"
         typeof="rdfs:Class">
-        <h3></h3>
+        <h3>CheckpointEvent</h3>
           <p>
 
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+      <section id="ConsensusEvent" about="https://w3id.org/flex#ConsensusEvent"
+        typeof="rdfs:Class">
+        <h3>ConsensusEvent</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+      <section id="ConfigurationEvent" about="https://w3id.org/flex#ConfigurationEvent"
+        typeof="rdfs:Class">
+        <h3>ConfigurationEvent</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+      <section id="StorageEvent" about="https://w3id.org/flex#StorageEvent"
+        typeof="rdfs:Class">
+        <h3>StorageEvent</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
@@ -137,17 +218,248 @@ The example below describes :
     </section>
 
     <section>
-      <h2>Properties</h2>
+      <h2>Storage Classes</h2>
+
+      <section id="MerklePatriciaTrie" about="https://w3id.org/flex#MerklePatriciaTrie"
+        typeof="rdfs:Class">
+        <h3>MerklePatriciaTrie</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+      <section id="MerkleTree" about="https://w3id.org/flex#MerkleTree"
+        typeof="rdfs:Class">
+        <h3>MerkleTree</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+      <section id="SequentialList" about="https://w3id.org/flex#SequentialList"
+        typeof="rdfs:Class">
+        <h3>SequentialList</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+    </section>
+
+    <section>
+      <h2>Proof Classes</h2>
+
+      <section id="ProofOfBallot2015" about="https://w3id.org/flex#ProofOfBallot2015"
+        typeof="rdfs:Class">
+        <h3>ProofOfBallot2015</h3>
+          <p>
+A consensus protocol as described in the
+<a href="">Stellar Consensus Protocol Whitepaper</a>. The Stellar
+Consensus Protocol is the first provably safe construction for Federated
+Byzantine Agreement. Unlike most existing approaches to consensus, it enjoys
+four key properties: 1) decentralized control, 2) flexible trust,
+3) low latency, and 3) asymptotic security. As a Federated Byzantine
+Agreement protocol, it guarantees safety in the face of non-rational behavior
+and requires only modest computing resources, lowering the barrier to entry.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>quorum, minimumVotePercentage</dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "ProofOfBallot2015",
+  "quorum": "0.51",
+  "minimumVotePercentage": "0.67"
+}
+</pre>
+      </section>
+
+      <section id="ProofOfWork2016" about="https://w3id.org/flex#ProofOfWork2016"
+        typeof="rdfs:Class">
+        <h3>ProofOfWork2016</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>targetDifficulty, proofOfWorkAlgorithm</dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "ProofOfWork2016",
+  "proofOfWorkAlgorithm": "Bitcoin", // double SHA-256 on block hash + nonce < targetDifficulty
+  "targetDifficulty": "199312067531.243"
+}
+</pre>
+      </section>
+
+      <section id="ProofOfSignature2016" about="https://w3id.org/flex#ProofOfSignature2016"
+        typeof="rdfs:Class">
+        <h3>ProofOfSignature2016</h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>minimumSignaturesRequired, approvedSigner</dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "ProofOfSignature2016",
+  "approvedSigner": [
+    "https://fema.example.us.gov/i/ofp",
+    "https://tsa.example.us.gov/i/vclaims",
+    "https://dhs.example.us.gov/i/credentialing"
+  ],
+  "minimumSignaturesRequired": 2
+}
+</pre>
+      </section>
 
       <section id="" about="https://w3id.org/flex#"
-        typeof="rdf:Property">
+        typeof="rdfs:Class">
         <h3></h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+<!--------------------- BEGIN TEMPLATE ----------------------------------
+
+      <section id="" about="https://w3id.org/flex#"
+        typeof="rdfs:Class">
+        <h3></h3>
+          <p>
+
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd></dd>
+          </dl>
+        <p>
+The example below describes :
+        </p>
+<pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "type": "",
+}
+</pre>
+      </section>
+
+--------------------- END TEMPLATE ---------------------------------->
+
+    </section>
+
+    <section>
+      <h2>Properties</h2>
+
+      <section id="addsObject" about="https://w3id.org/flex#addsObject"
+        typeof="rdf:Property">
+        <h3>addsObject</h3>
         <p>
 
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -160,6 +472,338 @@ The example below expresses
 }
         </pre>
       </section>
+
+
+      <section id="approvedSigner" about="https://w3id.org/flex#approvedSigner"
+        typeof="rdf:Property">
+        <h3>approvedSigner</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="checkpointLog" about="https://w3id.org/flex#checkpointLog"
+        typeof="rdf:Property">
+        <h3>checkpointLog</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="checkpointLogHash" about="https://w3id.org/flex#checkpointLogHash"
+        typeof="rdf:Property">
+        <h3>checkpointLogHash</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+      <section id="consensusAlgorithm" about="https://w3id.org/flex#consensusAlgorithm"
+        typeof="rdf:Property">
+        <h3>consensusAlgorithm</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>ConsensusAlgorithm</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": [
+      "https://fema.example.us.gov/i/ofp",
+      "https://tsa.example.us.gov/i/vclaims",
+      "https://dhs.example.us.gov/i/credentialing"
+    ],
+    "minimumSignaturesRequired": 2
+  }
+}
+        </pre>
+      </section>
+
+      <section id="minimumQuorumPercentage" about="https://w3id.org/flex#minimumQuorumPercentage"
+        typeof="rdf:Property">
+        <h3>minimumQuorumPercentage</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="minimumSignaturesRequired" about="https://w3id.org/flex#minimumSignaturesRequired"
+        typeof="rdf:Property">
+        <h3>minimumSignaturesRequired</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="minimumVotePercentage" about="https://w3id.org/flex#minimumVotePercentage"
+        typeof="rdf:Property">
+        <h3>minimumVotePercentage</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="nextEvent" about="https://w3id.org/flex#nextEvent"
+        typeof="rdf:Property">
+        <h3>nextEvent</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="previousEvent" about="https://w3id.org/flex#previousEvent"
+        typeof="rdf:Property">
+        <h3>previousEvent</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="proofOfWorkAlgorithm" about="https://w3id.org/flex#proofOfWorkAlgorithm"
+        typeof="rdf:Property">
+        <h3>proofOfWorkAlgorithm</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="replacesObject" about="https://w3id.org/flex#replacesObject"
+        typeof="rdf:Property">
+        <h3>replacesObject</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="storageMechanism" about="https://w3id.org/flex#storageMechanism"
+        typeof="rdf:Property">
+        <h3>storageMechanism</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+
+      <section id="targetDifficulty" about="https://w3id.org/flex#targetDifficulty"
+        typeof="rdf:Property">
+        <h3>targetDifficulty</h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+<!--------------------- BEGIN TEMPLATE ----------------------------------
+
+      <section id="" about="https://w3id.org/flex#"
+        typeof="rdf:Property">
+        <h3></h3>
+        <p>
+
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses
+        </p>
+        <pre class="example">
+{
+  "@context": "https://w3id.org/flex/v1",
+}
+        </pre>
+      </section>
+
+--------------------- END TEMPLATE ---------------------------------->
 
     </section>
 

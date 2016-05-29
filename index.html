@@ -300,7 +300,7 @@ typically an operational rule entry.
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfBallot2015",
-    "quorum": "0.51",
+    "minimumQuorumPercentage": "0.51",
     "minimumVotePercentage": "0.67",
     "approvedSigner": [
       "https://regulator-a.gov/i/bank-oversight",
@@ -338,7 +338,7 @@ typically an operational rule entry.
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
   "type": "StorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "replaceObject": [{
+  "replacesObject": [{
     "id": "https://vhda.va.us.gov/properties/3829344",
     "propertyAddress": {
       "street": "263 Main Street",
@@ -369,7 +369,7 @@ typically an operational rule entry.
   "id": "https://example.us.gov/ledgers/emergency-response/2",
   "type": "StorageEvent",
   "previousEvent": "https://example.us.gov/ledgers/emergency-response/1",
-  "replaceObject": [{
+  "replacesObject": [{
     "id": "https://example.us.gov/credentials/234234542",
     "type": ["Credential", "EmergencyResponseCredential"]
     "claim": {
@@ -397,7 +397,7 @@ typically an operational rule entry.
   "id": "bytecoin:block:83ba663df28372718",
   "type": "StorageEvent",
   "previousEvent": "bytecoin:block:271863df2883ba637",
-  "addObject": [{
+  "addsObject": [{
     "transaction": [{
       "https://w3id.org/bytecoin/v1"
       "source": "bytecoin:2892316f63778",
@@ -411,7 +411,7 @@ typically an operational rule entry.
     }], ... // there could be hundreds to thousands more of these
   }]
   "signature": {
-    "type": "ProofOfWorkSignature2016",
+    "type": "LinkedDataSignature2016",
     "created": "2017-01-24T02:11:16Z",
     "creator": "bytecoin:key:23fa73bb201c738d",
     "signatureValue": "90D4cFqT/yKPiwd/GFzv...NJGL=="
@@ -428,7 +428,7 @@ typically an operational rule entry.
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
   "type": "StorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "addObject": [{
+  "addsObject": [{
     "id": "https://example-consortium.com/private-ledgers/loans/real-estate/transactions/238947234",
     "transaction": {
       "source": "lei:HB7FFAZIO0MZ8PP8OE26", // compliant to ISO 17442 standard
@@ -497,7 +497,7 @@ to a compressed/checksummed file?
   "id": "https://example.org/ledgers/example/5",
   "type": "StorageEvent",
   "previousEvent": "example.org/ledgers/example/4",
-  "addObject": [{
+  "addsObject": [{
     "transaction": [{
       "source": "https://example.org/accounts/jane/7",
       "destination": "https://foo.com/accounts/bob/3",
@@ -509,7 +509,7 @@ to a compressed/checksummed file?
     }], ... // there could be hundreds to thousands more of these
   }]
   "signature": {
-    "type": "ProofOfWorkSignature2016",
+    "type": "LinkedDataSignature2016",
     "created": "2017-01-24T02:11:16Z",
     "creator": "bytecoin:key:23fa73bb201c738d",
     "signatureValue": "90D4cFqT/yKPiwd/GFzv...NJGL=="
