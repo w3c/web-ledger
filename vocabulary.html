@@ -127,7 +127,7 @@ This is an experimental vocabulary and its use is not recommended at this time.
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
-            <dd></dd>
+            <dd>checkpointLog, checkpointLogHash, signature</dd>
           </dl>
         <p>
 The example below describes :
@@ -135,7 +135,17 @@ The example below describes :
 <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
-  "type": "",
+  "id": "https://example.org/ledgers/example/6372463",
+  "type": "CheckpointEvent",
+  "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
+  "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://example.org/i/master/keys/32",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there may be multiple counter-signatures here
+  ]
 }
 </pre>
       </section>
@@ -160,7 +170,23 @@ The example below describes :
 <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
-  "type": "",
+  "id": "https://example.org/ledgers/example/8239849843",
+  "type": ["ConsensusEvent", "ProofOfBallot2015"],
+  "previousConsensusEvent": "https://example.org/ledgers/example/8239848234",
+  "acknowledgedEvents": [
+    "https://example.org/ledgers/example/8239849838",
+    "https://example.org/ledgers/example/8239849839",
+    "https://example.org/ledgers/example/8239849840",
+    "https://example.org/ledgers/example/8239849841",
+    "https://example.org/ledgers/example/8239849842",
+  ],
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/12",
+    "signatureValue": "4cF/yKd/JPiw90DqTGLv...NGFz=="
+  }, // other signatures on votes in favor follow...
+  ]
 }
 </pre>
       </section>
@@ -185,7 +211,21 @@ The example below describes :
 <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
-  "type": "",
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
+  },
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-21T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
 </pre>
       </section>
@@ -209,10 +249,31 @@ The example below describes :
         </p>
 <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "type": "",
-}
-</pre>
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/cryptocurrencies/v1"
+  ],
+  "id": "https://example.org/ledgers/example/5",
+  "type": "StorageEvent",
+  "previousEvent": "https://example.org/ledgers/example/4",
+  "addsObject": [{
+    "transaction": [{
+      "source": "https://example.org/accounts/jane/7",
+      "destination": "https://foo.com/accounts/bob/3",
+      "remoteLedger": "https://foo.com/ledgers/blah/3445",
+      "transfer": {
+        "amount": "23.45",
+        "currency": "USD"
+      }
+    }], ... // there could be hundreds to thousands more of these
+  }]
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2017-01-24T02:11:16Z",
+    "creator": "bytecoin:key:23fa73bb201c738d",
+    "signatureValue": "90D4cFqT/yKPiwd/GFzv...NJGL=="
+  }
+}</pre>
       </section>
 
     </section>
@@ -239,8 +300,31 @@ The example below describes :
         </p>
 <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "type": "",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/cryptocurrencies/v1"
+  ],
+  "id": "lux:entry:37823",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "MerklePatriciaTrie",
+  "consensusAlgorithm": {
+    "type": "ProofOfBallot2015",
+    "minimumQuorumPercentage": "0.51",
+    "minimumVotePercentage": "0.67",
+    "approvedSigner": [
+      "https://regulator-a.gov/i/bank-oversight",
+      "https://regulator-b.gov/i/consumer-protection",
+      "https://bank-x.com/i/housing",
+      "https://bank-y.com/i/corporate-loans",
+      "https://bank-z.com/i/swaps",
+    ]
+  },
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2017-01-24T02:10:21Z",
+    "creator": "lux:keys:d52aff68923f3b2c8183bd",
+    "signatureValue": "FqT/yK90D4cPiwd/GFzv...NJGL=="
+  }
 }
 </pre>
       </section>
@@ -264,8 +348,24 @@ The example below describes :
         </p>
 <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "type": "",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/cryptocurrencies/v1"
+  ],
+  "id": "bytecoin:block:23fa73bb201c738d",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "MerkleTree",
+  "consensusAlgorithm": {
+    "type": "ProofOfWork2016",
+    "proofOfWorkAlgorithm": "Bitcoin",
+    "targetDifficulty": "199312067531.243"
+  },
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2017-01-24T02:10:21Z",
+    "creator": "bytecoin:keys:23f3b2c8183bdd52aff689",
+    "signatureValue": "90D4cFqT/yKPiwd/GFzv...NJGL=="
+  }
 }
 </pre>
       </section>
@@ -290,7 +390,21 @@ The example below describes :
 <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
-  "type": "",
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
+  },
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-21T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
 </pre>
       </section>
@@ -392,31 +506,6 @@ The example below describes :
 </pre>
       </section>
 
-      <section id="" about="https://w3id.org/flex#"
-        typeof="rdfs:Class">
-        <h3></h3>
-          <p>
-
-          </p>
-          <dl>
-            <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
-            <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
-            <dt>Expected properties</dt>
-            <dd></dd>
-          </dl>
-        <p>
-The example below describes :
-        </p>
-<pre class="example">
-{
-  "@context": "https://w3id.org/flex/v1",
-  "type": "",
-}
-</pre>
-      </section>
-
 <!--------------------- BEGIN TEMPLATE ----------------------------------
 
       <section id="" about="https://w3id.org/flex#"
@@ -468,7 +557,30 @@ The example below expresses
         </p>
         <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/real-estate/v1"
+  ],
+  "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
+  "type": "StorageEvent",
+  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "addsObject": [{
+    "id": "https://example-consortium.com/private-ledgers/loans/real-estate/transactions/238947234",
+    "transaction": {
+      "source": "lei:HB7FFAZIO0MZ8PP8OE26", // compliant to ISO 17442 standard
+      "destination": "lei:PP8OEHB7FFAZIO0MZ826",
+      "transfer": {
+        "loanId": "lei:FAZIO0PP8OEHB7FMZ826"
+      }
+    }
+  }],
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://regulator-b.gov/i/consumer-protection/keys/2f73",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there will be at least 3 more signatures here
+  ]
 }
         </pre>
       </section>
@@ -492,6 +604,21 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
+  },
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-21T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
@@ -515,6 +642,17 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "id": "https://example.org/ledgers/example/6372463",
+  "type": "CheckpointEvent",
+  "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
+  "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://example.org/i/master/keys/32",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there may be multiple counter-signatures here
+  ]
 }
         </pre>
       </section>
@@ -538,6 +676,17 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "id": "https://example.org/ledgers/example/6372463",
+  "type": "CheckpointEvent",
+  "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
+  "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://example.org/i/master/keys/32",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there may be multiple counter-signatures here
+  ]
 }
         </pre>
       </section>
@@ -590,7 +739,32 @@ The example below expresses
         </p>
         <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/cryptocurrencies/v1"
+  ],
+  "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfBallot2015",
+    "minimumQuorumPercentage": "0.51",
+    "minimumVotePercentage": "0.67",
+    "approvedSigner": [
+      "https://regulator-a.gov/i/bank-oversight",
+      "https://regulator-b.gov/i/consumer-protection",
+      "https://bank-x.com/i/housing",
+      "https://bank-y.com/i/corporate-loans",
+      "https://bank-z.com/i/swaps",
+    ]
+  },
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://regulator-b.gov/i/consumer-protection/keys/2f73",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there will be at least 3 more signatures here
+  ]
 }
         </pre>
       </section>
@@ -614,6 +788,21 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
+  },
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-21T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
@@ -636,7 +825,32 @@ The example below expresses
         </p>
         <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/cryptocurrencies/v1"
+  ],
+  "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfBallot2015",
+    "minimumQuorumPercentage": "0.51",
+    "minimumVotePercentage": "0.67",
+    "approvedSigner": [
+      "https://regulator-a.gov/i/bank-oversight",
+      "https://regulator-b.gov/i/consumer-protection",
+      "https://bank-x.com/i/housing",
+      "https://bank-y.com/i/corporate-loans",
+      "https://bank-z.com/i/swaps",
+    ]
+  },
+  "signature": [{
+    "type": "LinkedDataSignature2016",
+    "created": "2018-04-16T19:34:18Z",
+    "creator": "https://regulator-b.gov/i/consumer-protection/keys/2f73",
+    "signatureValue": "Piw90D4cFqT/yKd/JGLv...NGFz=="
+  }, ... // there will be at least 3 more signatures here
+  ]
 }
         </pre>
       </section>
@@ -660,6 +874,21 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
+  },
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-21T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
@@ -682,7 +911,32 @@ The example below expresses
         </p>
         <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/housing/v1",
+  ],
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "type": "StorageEvent",
+  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "replacesObject": [{
+    "id": "https://vhda.va.us.gov/properties/3829344",
+    "propertyAddress": {
+      "street": "263 Main Street",
+      "locality": "Webville",
+      "region": "VA",
+      "postalCode": "24736-3726",
+      "country": "US"
+    },
+    "owner": {
+      "name": "Jane Smith",
+      "postalAddress": { ... }
+  }],
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-22T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
@@ -705,7 +959,10 @@ The example below expresses
         </p>
         <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": [ "https://w3id.org/flex/v1", "https://w3id.org/cryptocurrencies/v1" ],
+  "type": "ProofOfWork2016",
+  "proofOfWorkAlgorithm": "Bitcoin",
+  "targetDifficulty": "199312067531.243"
 }
         </pre>
       </section>
@@ -728,7 +985,32 @@ The example below expresses
         </p>
         <pre class="example">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/housing/v1",
+  ],
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "type": "StorageEvent",
+  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "replacesObject": [{
+    "id": "https://vhda.va.us.gov/properties/3829344",
+    "propertyAddress": {
+      "street": "263 Main Street",
+      "locality": "Webville",
+      "region": "VA",
+      "postalCode": "24736-3726",
+      "country": "US"
+    },
+    "owner": {
+      "name": "Jane Smith",
+      "postalAddress": { ... }
+  }],
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-22T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
@@ -752,6 +1034,21 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "type": "ConfigurationEvent",
+  "storageMechanism": "SequentialList",
+  "consensusAlgorithm": {
+    "type": "ProofOfSignature2016",
+    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
+    "minimumSignaturesRequired": 1
+  },
+  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-21T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
@@ -775,6 +1072,9 @@ The example below expresses
         <pre class="example">
 {
   "@context": "https://w3id.org/flex/v1",
+  "type": "ProofOfWork2016",
+  "proofOfWorkAlgorithm": "Bitcoin",
+  "targetDifficulty": "199312067531.243"
 }
         </pre>
       </section>
