@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flex 1.0</title>
+    <title>Flex Ledger 1.0</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
@@ -17,7 +17,7 @@ var respecConfig = {
   specStatus:           "CG-DRAFT",
 
   // the specification's short name, as in http://www.w3.org/TR/short-name/
-  shortName:            "flex",
+  shortName:            "flex-ledger",
 
   // subtitle for the specification
   subtitle: "A flexible Linked Data ledger format for the Web",
@@ -91,10 +91,10 @@ var respecConfig = {
 <section id="abstract">
   <p>
 This document outlines a data model and syntax for expressing a
-set of ordered events (aka ledger) in way that can be cryptographically
-verified. This technology is useful when coordinating the recording
-of events, such as financial transactions, transfer of property, or
-time-stamped data that must be shared among coordinating parties. A
+set of ordered events in a decentralized system in way that can be
+cryptographically verified. This technology is useful when coordinating
+the recording of events, such as financial transactions, transfer of property,
+or time-stamped data that must be shared among coordinating parties. A
 primary goal of this ledger format is flexibility, allowing the
 pluggability of consensus algorithms, data structures for recording
 history, and the type of data that can be stored in the ledger.
@@ -125,8 +125,87 @@ history, and the type of data that can be stored in the ledger.
   <h1>Introduction</h1>
 
   <p>
-TBD
+Decentralized systems often need to coordinate information on their
+operational state. While the entire state of the system doesn't need to be
+shared, the parts that affect the operation of the entire system are important.
+At their most basic, a <a>decentralized system</a> can be viewed as a
+<a>state machine</a> where events modify the state of the machine
+resulting in a new state:
   </p>
+
+  <figure>
+    <img src="diagrams/ds-lifetime.svg" />
+    <figcaption>
+A decentralized system can be viewed as a state machine where events
+transition the machine from one state to the next.
+    </figcaption>
+  </figure>
+
+  <p>
+There may be many different types of events in the system. Some events may
+handle system configuration, defining what the system is and isn't allowed
+to do. Some events may store data in the system that must be accessible by
+the entire system while other events snapshot the state of the system
+for performance and auditing purposes. Other events record the consensus of
+the system as a whole at a given point in time so that participants in the
+system can know that other participants agree with their view of the system.
+  </p>
+
+  <figure>
+    <img src="diagrams/ledger-events.svg" />
+    <figcaption>
+There may be many different types of events that trigger state changes in
+a decentralized system.
+    </figcaption>
+  </figure>
+
+  <p>
+Each event may affect the global system state in some way. This means that
+the current state is a representation of all the states and events that came
+before it.
+  </p>
+
+  <figure>
+    <img src="diagrams/system-state.svg" />
+    <figcaption>
+As the system processes each type of event, its underlying state changes.
+    </figcaption>
+  </figure>
+
+  <p>
+In certain decentralized systems, like financial or healthcare systems,
+auditing these states and events is important to ensure that they are
+operating in an acceptable way from a regulatory perspective.
+Thus a verifiable record of these events and states is an important component
+of the system design, but has not been a practical endeavor until recently.
+  </p>
+  <p>
+Due to recent advances in cryptography and decentralized systems design a new
+set of technologies called <a>cryptographic ledgers</a> have enabled the
+recording of state and events in a ledger where the ledger can be distributed
+and independently verified using cryptography. Some of these ledger systems are
+<em>trustless</em>, meaning that no trust (other than a trust in mathematics) is
+necessary in order to participate in the system. Other ledger systems are
+<em>permissioned</em>, meaning that some trust in 3rd parties are required to
+ensure the accuracy of the ledger.
+  </p>
+
+  <figure>
+    <img src="diagrams/basic-ledger.svg" />
+    <figcaption>
+A cryptographic ledger is a log of states and events that can be independently
+verified using cryptography.
+    </figcaption>
+  </figure>
+
+  <p>
+This specification details an extensible data model and syntax for expressing
+cryptographic ledgers. The data model in this specification is designed to
+be protocol-agnostic and flexible, supporting pluggability of consensus
+algorithms, various data structures for recording history, and enabling a
+wide range of data types to be stored in the ledger.
+  </p>
+
   <section class="informative">
     <h2>About this Document</h2>
 
@@ -162,8 +241,8 @@ model used for the technology.
 expression syntax for the data model.
       </li>
       <li>
-<a href="#semantics">Section 5:
-Blocks / Ledger Entry Semantics</a> describes how the rules of the ledger
+<a href="#operations">Section 5: Ledger Operations</a>
+describes how the rules of the ledger
 can be set and modified, how content is stored in the ledger, and how
 certain parts of the ledger can be optimized.
       </li>
@@ -174,9 +253,29 @@ certain parts of the ledger can be optimized.
   <section class="normative">
     <h2>Terminology</h2>
 
-    <!--div data-include="//w3c.github.io/webpayments-ig/latest/common/terms.html"
-      data-oninclude="restrictReferences">
-    </div-->
+
+<dl class="termlist">
+  <dt><dfn lt="cryptographic ledger|cryptographic ledgers|ledger">cryptographic ledger</dfn></dt>
+  <dd>
+A method of recording changes in a <a>state machine</a> where the
+accuracy of the ledger can be mathematically proven to be correct.
+  </dd>
+  <dt><dfn lt="decentralized system|decentralized systems">decentralized system</dfn></dt>
+  <dd>
+A system in which lower level components operate on local information to
+accomplish global goals. For example, an ant colony is a decentralized system
+as there is no central control determining when food must be collected or
+how new tunnels should be excavated.
+  </dd>
+  <dt><dfn lt="state machine|state machines">state machine</dfn></dt>
+  <dd>
+A system that when given a particular input changes from one internal state
+to another internal state. For example, a computer system that operates a
+light bulb starts with the light state set to off. When an input to turn
+the light on is given, the internal computer system state sets the light
+state to on, thus illuminating the light bulb.
+  </dd>
+</dl>
 
   </section>
 
@@ -202,8 +301,8 @@ Other RDF-compatible syntaxes MAY also be used to express the ledger semantics.
   </p>
 </section>
 
-<section id="semantics">
-  <h2>Ledger Entry Semantics</h2>
+<section id="operations">
+  <h2>Ledger Operations</h2>
 
   <p>
 A ledger consists of a series of entries. This section outlines the basic
@@ -211,8 +310,8 @@ types of entries that all Web Ledgers support. A particular Web Ledger MAY
 contain more than these basic entries.
   </p>
 
-  <section id="rules">
-    <h2>Setting Operational Rules</h2>
+  <section id="configuring">
+    <h2>Configuring the Ledger</h2>
 
     <p>
 Operational rules instruct software algorithms which rules should be applied
@@ -322,8 +421,8 @@ typically an operational rule entry.
 
   </section>
 
-  <section id="content">
-    <h2>Adding Application-specific Data</h2>
+  <section id="storing">
+    <h2>Storing Data in the Ledger</h2>
 
     <p>
 
@@ -450,8 +549,8 @@ typically an operational rule entry.
 
   </section>
 
-  <section id="checkpoints">
-    <h2>Checkpointing</h2>
+  <section id="checkpointing">
+    <h2>Checkpointing Ledger State</h2>
 
     <p>
 A checkpoint log is an entry in the ledger that
