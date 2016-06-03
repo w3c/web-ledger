@@ -323,7 +323,7 @@ typically an operational rule entry.
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -344,7 +344,7 @@ typically an operational rule entry.
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.us.gov/ledgers/emergency-response/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -372,7 +372,7 @@ typically an operational rule entry.
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:23fa73bb201c738d",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "MerkleTree",
   "consensusAlgorithm": {
     "type": "ProofOfWork2016",
@@ -395,7 +395,7 @@ typically an operational rule entry.
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfBallot2015",
@@ -435,7 +435,7 @@ typically an operational rule entry.
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "replacesObject": [{
     "id": "https://vhda.va.us.gov/properties/3829344",
@@ -466,7 +466,7 @@ typically an operational rule entry.
     "https://w3id.org/dhs/credentials/v1",
   ],
   "id": "https://example.us.gov/ledgers/emergency-response/2",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example.us.gov/ledgers/emergency-response/1",
   "replacesObject": [{
     "id": "https://example.us.gov/credentials/234234542",
@@ -494,7 +494,7 @@ typically an operational rule entry.
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:83ba663df28372718",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "bytecoin:block:271863df2883ba637",
   "addsObject": [{
     "transaction": [{
@@ -525,7 +525,7 @@ typically an operational rule entry.
     "https://w3id.org/real-estate/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "addsObject": [{
     "id": "https://example-consortium.com/private-ledgers/loans/real-estate/transactions/238947234",
@@ -567,7 +567,7 @@ to a compressed/checksummed file?
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
-  "type": "CheckpointEvent",
+  "type": "LedgerCheckpointEvent",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
   "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
@@ -594,7 +594,7 @@ to a compressed/checksummed file?
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example.org/ledgers/example/5",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example.org/ledgers/example/4",
   "addsObject": [{
     "transaction": [{
@@ -627,8 +627,8 @@ to a compressed/checksummed file?
 This specification, a part of the "Credentials on Public/Private
 Linked Ledgers" project, has been funded in part by the United States
 Department of Homeland Security's Science and Technology Directorate under
-contract HSHQDC-16-C-00058. The content of this specification does not 
-necessarily reflect the position or the policy of the U.S. Government and 
+contract HSHQDC-16-C-00058. The content of this specification does not
+necessarily reflect the position or the policy of the U.S. Government and
 no official endorsement should be inferred.
   </p>
 

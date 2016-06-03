@@ -115,7 +115,7 @@ This is an experimental vocabulary and its use is not recommended at this time.
     <section>
       <h2>Event Classes</h2>
 
-      <section id="CheckpointEvent" about="https://w3id.org/flex#CheckpointEvent"
+      <section id="LedgerCheckpointEvent" about="https://w3id.org/flex#CheckpointEvent"
         typeof="rdfs:Class">
         <h3>CheckpointEvent</h3>
           <p>
@@ -136,7 +136,7 @@ The example below describes :
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
-  "type": "CheckpointEvent",
+  "type": "LedgerCheckpointEvent",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
   "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
@@ -150,7 +150,7 @@ The example below describes :
 </pre>
       </section>
 
-      <section id="ConsensusEvent" about="https://w3id.org/flex#ConsensusEvent"
+      <section id="LedgerConsensusEvent" about="https://w3id.org/flex#ConsensusEvent"
         typeof="rdfs:Class">
         <h3>ConsensusEvent</h3>
           <p>
@@ -171,7 +171,7 @@ The example below describes :
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/8239849843",
-  "type": ["ConsensusEvent", "ProofOfBallot2015"],
+  "type": ["LedgerConsensusEvent", "ProofOfBallot2015"],
   "previousConsensusEvent": "https://example.org/ledgers/example/8239848234",
   "acknowledgedEvents": [
     "https://example.org/ledgers/example/8239849838",
@@ -191,7 +191,7 @@ The example below describes :
 </pre>
       </section>
 
-      <section id="ConfigurationEvent" about="https://w3id.org/flex#ConfigurationEvent"
+      <section id="LedgerConfigurationEvent" about="https://w3id.org/flex#ConfigurationEvent"
         typeof="rdfs:Class">
         <h3>ConfigurationEvent</h3>
           <p>
@@ -212,7 +212,7 @@ The example below describes :
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -230,7 +230,7 @@ The example below describes :
 </pre>
       </section>
 
-      <section id="StorageEvent" about="https://w3id.org/flex#StorageEvent"
+      <section id="LedgerStorageEvent" about="https://w3id.org/flex#StorageEvent"
         typeof="rdfs:Class">
         <h3>StorageEvent</h3>
           <p>
@@ -254,7 +254,7 @@ The example below describes :
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example.org/ledgers/example/5",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example.org/ledgers/example/4",
   "addsObject": [{
     "transaction": [{
@@ -305,7 +305,7 @@ The example below describes :
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "lux:entry:37823",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "MerklePatriciaTrie",
   "consensusAlgorithm": {
     "type": "ProofOfBallot2015",
@@ -353,7 +353,7 @@ The example below describes :
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:23fa73bb201c738d",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "MerkleTree",
   "consensusAlgorithm": {
     "type": "ProofOfWork2016",
@@ -391,7 +391,7 @@ The example below describes :
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -562,7 +562,7 @@ The example below expresses
     "https://w3id.org/real-estate/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "addsObject": [{
     "id": "https://example-consortium.com/private-ledgers/loans/real-estate/transactions/238947234",
@@ -605,7 +605,7 @@ The example below expresses
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -643,7 +643,7 @@ The example below expresses
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
-  "type": "CheckpointEvent",
+  "type": "LedgerCheckpointEvent",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
   "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
@@ -677,7 +677,7 @@ The example below expresses
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
-  "type": "CheckpointEvent",
+  "type": "LedgerCheckpointEvent",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
   "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
@@ -744,7 +744,7 @@ The example below expresses
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfBallot2015",
@@ -789,7 +789,7 @@ The example below expresses
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -830,7 +830,7 @@ The example below expresses
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfBallot2015",
@@ -875,7 +875,7 @@ The example below expresses
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -916,7 +916,7 @@ The example below expresses
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "replacesObject": [{
     "id": "https://vhda.va.us.gov/properties/3829344",
@@ -990,7 +990,7 @@ The example below expresses
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
-  "type": "StorageEvent",
+  "type": "LedgerStorageEvent",
   "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "replacesObject": [{
     "id": "https://vhda.va.us.gov/properties/3829344",
@@ -1035,7 +1035,7 @@ The example below expresses
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
-  "type": "ConfigurationEvent",
+  "type": "LedgerConfigurationEvent",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
