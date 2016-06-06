@@ -108,7 +108,8 @@ until it is ratified as an official document via the World Wide Web Consortium.
 
     <section id='sotd'>
       <p>
-This is an experimental vocabulary and its use is not recommended at this time.
+This is an experimental vocabulary and its use in production systems
+is not recommended at this time.
       </p>
     </section>
 
@@ -119,7 +120,10 @@ This is an experimental vocabulary and its use is not recommended at this time.
         typeof="rdfs:Class">
         <h3>CheckpointEvent</h3>
           <p>
-
+An event that is used to provide a snapshot in time that can be used to
+quickly bootstrap late-joining nodes in a system. Checkpoint events can also
+be used as known good points to start from instead of having to download the
+entire ledger history.
           </p>
           <dl>
             <dt>Status</dt>
@@ -154,7 +158,9 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>ConsensusEvent</h3>
           <p>
-
+An event where the network of nodes curating a particular ledger come to an
+agreement on the correct state of the ledger. The mechanism used to come to
+agreement is configurable.
           </p>
           <dl>
             <dt>Status</dt>
@@ -162,7 +168,7 @@ The example below describes :
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
-            <dd></dd>
+            <dd>previousConsensusEvent, acknowledgedEvents, signature</dd>
           </dl>
         <p>
 The example below describes :
@@ -195,7 +201,8 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>ConfigurationEvent</h3>
           <p>
-
+An event noting that the operational rules of the ledger have changed. This
+event is typically only active after the next ConsensusEvent has taken place.
           </p>
           <dl>
             <dt>Status</dt>
@@ -203,7 +210,7 @@ The example below describes :
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
-            <dd></dd>
+            <dd>storageMechanism, consensusAlgorithm, signature</dd>
           </dl>
         <p>
 The example below describes :
@@ -234,7 +241,9 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>StorageEvent</h3>
           <p>
-
+An event noting that a ledger value has changed. Changes to a ledger can be
+modifications to the state machine such as the addition of values, removal
+of values, or modification of values.
           </p>
           <dl>
             <dt>Status</dt>
@@ -242,7 +251,7 @@ The example below describes :
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
-            <dd></dd>
+            <dd>addsObject, removesObject, modifiesObject, signature</dd>
           </dl>
         <p>
 The example below describes :
@@ -285,15 +294,23 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>MerklePatriciaTrie</h3>
           <p>
-
+A storage mechanism that combines a
+<a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle Tree</a> with a
+<a href="https://en.wikipedia.org/wiki/Radix_tree">radix-sorted trie</a> thus
+creating a quickly searchable hashtree. Merkle-Patricia Tries are
+fully deterministic meaning that re-creating the tree results in the same
+root hash and byte-perfect key-value bindings. This data structure
+provides O(log(n)) efficiency for inserts, lookups and deletes, and are
+simpler to implement and understand. The Ethereum blockchain uses
+Merkle-Patricia Tries for storage.
           </p>
           <dl>
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
-            <dt>Expected properties</dt>
-            <dd></dd>
+            <dt>Used by</dt>
+            <dd>storageMechanism</dd>
           </dl>
         <p>
 The example below describes :
@@ -333,15 +350,19 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>MerkleTree</h3>
           <p>
-
+A storage mechanism utilizing the
+<a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle Tree</a>
+data structure, which enables efficient and secure verification of the
+contents of large data structures. The Bitcoin blockchain utilizes Merkle trees
+in its implementation.
           </p>
           <dl>
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
-            <dt>Expected properties</dt>
-            <dd></dd>
+            <dt>Used by</dt>
+            <dd>storageMechanism</dd>
           </dl>
         <p>
 The example below describes :
@@ -374,15 +395,16 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>SequentialList</h3>
           <p>
-
+A data structure that stores a sequential list of items, also known as a
+linked list.
           </p>
           <dl>
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
-            <dt>Expected properties</dt>
-            <dd></dd>
+            <dt>Used by</dt>
+            <dd>storageMechanism</dd>
           </dl>
         <p>
 The example below describes :
