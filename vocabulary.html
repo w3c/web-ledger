@@ -474,7 +474,10 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>ProofOfWork2016</h3>
           <p>
-
+A consensus protocol that proves that a particular amount of effort has been
+expended to arrive at a provided answer. For example, Bitcoin's Proof of Work
+algorithm proves that a statistically significant amount of hashing computations
+have occurred to arrive at an answer.
           </p>
           <dl>
             <dt>Status</dt>
@@ -501,7 +504,8 @@ The example below describes :
         typeof="rdfs:Class">
         <h3>ProofOfSignature2016</h3>
           <p>
-
+A consensus protocol that demonstrates that a certain number of signatures
+past a given threshold have been registered.
           </p>
           <dl>
             <dt>Status</dt>
@@ -566,7 +570,8 @@ The example below describes :
         typeof="rdf:Property">
         <h3>addsObject</h3>
         <p>
-
+Denotes that one or more objects have been added as a result of the event.
+This property is typically used by LedgerStorageEvents.
         </p>
         <dl>
           <dt>Status</dt>
@@ -612,7 +617,10 @@ The example below expresses
         typeof="rdf:Property">
         <h3>approvedSigner</h3>
         <p>
-
+Specifies an entity that is authorized to assert consensus under
+permissioned consensus algorithms. It is important to note that the data,
+such as public key material, should be stored in the ledger to ensure
+long-term auditability of the ledger.
         </p>
         <dl>
           <dt>Status</dt>
@@ -650,7 +658,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>checkpointLog</h3>
         <p>
-
+A URL pointing to a log file that when replayed can re-create the current
+state of the ledger.
         </p>
         <dl>
           <dt>Status</dt>
@@ -684,7 +693,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>checkpointLogHash</h3>
         <p>
-
+A cryptographic hash of the contents of the checkpointLog that may be
+used to ensure data integrity.
         </p>
         <dl>
           <dt>Status</dt>
@@ -717,7 +727,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>consensusAlgorithm</h3>
         <p>
-
+Used to specify a particular consensus algorithm, typically used in a
+ConfigurationEvent.
         </p>
         <dl>
           <dt>Status</dt>
@@ -748,7 +759,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>minimumQuorumPercentage</h3>
         <p>
-
+The minimum percentage of members in a particular balloting initiative that
+are required to vote in order for the vote to count.
         </p>
         <dl>
           <dt>Status</dt>
@@ -796,7 +808,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>minimumSignaturesRequired</h3>
         <p>
-
+The minimum number of signatures required to bind a particular decision made
+in a ledger.
         </p>
         <dl>
           <dt>Status</dt>
@@ -834,7 +847,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>minimumVotePercentage</h3>
         <p>
-
+The minimum percentage of votes in an election to carry a particular
+motion under consideration.
         </p>
         <dl>
           <dt>Status</dt>
@@ -882,7 +896,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>nextEvent</h3>
         <p>
-
+The next event in a ledger. It is not always possible to know what the
+next event is for ledgers of a certain type.
         </p>
         <dl>
           <dt>Status</dt>
@@ -920,7 +935,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>previousEvent</h3>
         <p>
-
+The previous event in a ledger. This is typically useful when auditing a
+ledger to ensure that its history is valid.
         </p>
         <dl>
           <dt>Status</dt>
@@ -968,7 +984,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>proofOfWorkAlgorithm</h3>
         <p>
-
+This property is used to specify the type of proof of work algorithm that
+the ledger expects to be executed in order to reach consensus.
         </p>
         <dl>
           <dt>Status</dt>
@@ -994,7 +1011,7 @@ The example below expresses
         typeof="rdf:Property">
         <h3>replacesObject</h3>
         <p>
-
+Used to specify the set of objects to replace during a StorageEvent.
         </p>
         <dl>
           <dt>Status</dt>
@@ -1042,7 +1059,10 @@ The example below expresses
         typeof="rdf:Property">
         <h3>storageMechanism</h3>
         <p>
-
+Denotes the type of storage mechanism that should be used for this ledger.
+These storage mechanisms often have qualities that the ledger depends on
+for integrity checking, storage efficiency, or other qualities that are
+important to the ledger application.
         </p>
         <dl>
           <dt>Status</dt>
@@ -1080,7 +1100,8 @@ The example below expresses
         typeof="rdf:Property">
         <h3>targetDifficulty</h3>
         <p>
-
+A property that specifies how difficult a particular proof of work should be.
+The value is dependent on the proofOfWorkAlgorithm property.
         </p>
         <dl>
           <dt>Status</dt>
