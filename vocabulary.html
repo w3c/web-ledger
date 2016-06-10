@@ -134,7 +134,10 @@ entire ledger history.
             <dd>checkpointLog, checkpointLogHash, signature</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a checkpoint event with a checkpoint log located
+at <code>https://example.org/ledgers/example/checkpoints/132</code> whose
+contents hash to a SHA-256 value of 
+<code>7fa3b9eaa8d92d2b87abf83d88a92ff23</code>:
         </p>
 <pre class="example">
 {
@@ -171,7 +174,10 @@ agreement is configurable.
             <dd>previousConsensusEvent, acknowledgedEvents, signature</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a consensus event that includes a link to a
+previousConsensusEvent, a list of acknowledged events, and a set of signatures
+by multiple entities proving that the consensus ballot had a finalized 
+outcome:
         </p>
 <pre class="example">
 {
@@ -213,7 +219,9 @@ event is typically only active after the next ConsensusEvent has taken place.
             <dd>storageMechanism, consensusAlgorithm, signature</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a configuration event for a ledger. The 
+configuration event states that the storage mechanism for the ledger is a
+sequential list, and the consensus algorithm requires one valid signature:
         </p>
 <pre class="example">
 {
@@ -254,7 +262,8 @@ of values, or modification of values.
             <dd>addsObject, removesObject, modifiesObject, signature</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a storage event containing a financial
+transaction and a link to the previous ledger event:
         </p>
 <pre class="example">
 {
@@ -313,7 +322,8 @@ Merkle-Patricia Tries for storage.
             <dd>storageMechanism</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a configuration event where the selected storage
+mechanism is a Merkle-Patricia trie:
         </p>
 <pre class="example">
 {
@@ -365,7 +375,8 @@ in its implementation.
             <dd>storageMechanism</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a ledger storage event where the storage mechanism
+is a Merkle tree:
         </p>
 <pre class="example">
 {
@@ -407,7 +418,8 @@ linked list.
             <dd>storageMechanism</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a ledger configuration event where the storage
+mechanism is a sequential list:
         </p>
 <pre class="example">
 {
@@ -458,7 +470,9 @@ and requires only modest computing resources, lowering the barrier to entry.
             <dd>quorum, minimumVotePercentage</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a consensus mechanism object where the mechanism
+is a proof of ballot where at least 51% of the voting members are available
+and the minimum vote required to reach consensus is 67%:
         </p>
 <pre class="example">
 {
@@ -488,7 +502,9 @@ have occurred to arrive at an answer.
             <dd>targetDifficulty, proofOfWorkAlgorithm</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a consensus mechanism object where the mechanism
+is a Bitcoin-style proof of work with a target difficulty of
+<code>199312067531.243</code>:
         </p>
 <pre class="example">
 {
@@ -516,7 +532,9 @@ past a given threshold have been registered.
             <dd>minimumSignaturesRequired, approvedSigner</dd>
           </dl>
         <p>
-The example below describes :
+The example below describes a consensus mechanism object where the mechanism
+is a proof of signature that requires two signatures from the set of 
+approved signers:
         </p>
 <pre class="example">
 {
@@ -580,7 +598,8 @@ This property is typically used by LedgerStorageEvents.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger storage event where an object 
+describing a real estate loan transfer is added to the ledger.
         </p>
         <pre class="example">
 {
@@ -612,7 +631,6 @@ The example below expresses
         </pre>
       </section>
 
-
       <section id="approvedSigner" about="https://w3id.org/flex#approvedSigner"
         typeof="rdf:Property">
         <h3>approvedSigner</h3>
@@ -629,7 +647,10 @@ long-term auditability of the ledger.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below describes a ledger configuration event with a proof of
+signature consensus algorithm. The proof of signature only requires one
+approved signer, which is 
+<code>https://webville.va.us.gov/i/planning-department</code>.
         </p>
         <pre class="example">
 {
@@ -668,7 +689,8 @@ state of the ledger.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger checkpoint event with a checkpointLog
+located at <code>https://example.org/ledgers/example/checkpoints/132</code>.
         </p>
         <pre class="example">
 {
@@ -688,7 +710,6 @@ The example below expresses
         </pre>
       </section>
 
-
       <section id="checkpointLogHash" about="https://w3id.org/flex#checkpointLogHash"
         typeof="rdf:Property">
         <h3>checkpointLogHash</h3>
@@ -703,7 +724,10 @@ used to ensure data integrity.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger checkpoint event with a checkpointLog
+located at <code>https://example.org/ledgers/example/checkpoints/132</code>
+where the contents of the log should hash to a SHA-256 value of
+<code>7fa3b9eaa8d92d2b87abf83d88a92ff23</code>.
         </p>
         <pre class="example">
 {
@@ -737,7 +761,8 @@ ConfigurationEvent.
           <dd>ConsensusAlgorithm</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a proof of signature consensus algorithm. This
+information is typically expressed in a ledger configuration event.
         </p>
         <pre class="example">
 {
@@ -769,7 +794,9 @@ are required to vote in order for the vote to count.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger configuration event that specifies
+a proof of ballot consensus algorithm where the minimum percentage to
+achieve quorum is 51%.
         </p>
         <pre class="example">
 {
@@ -818,7 +845,9 @@ in a ledger.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger configuration event specifying a
+proof of signature consensus algorithm where only one signature is required
+from the set of approved signers.
         </p>
         <pre class="example">
 {
@@ -842,7 +871,6 @@ The example below expresses
         </pre>
       </section>
 
-
       <section id="minimumVotePercentage" about="https://w3id.org/flex#minimumVotePercentage"
         typeof="rdf:Property">
         <h3>minimumVotePercentage</h3>
@@ -857,7 +885,9 @@ motion under consideration.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger configuration event specifying a
+proof of ballot consensus algorithm where 67% of the vote is required to
+pass a motion.
         </p>
         <pre class="example">
 {
@@ -906,7 +936,8 @@ next event is for ledgers of a certain type.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger event where the next event 
+(<code>https://vhda.va.us.gov/ledgers/webville/houses/2</code>) is known.
         </p>
         <pre class="example">
 {
@@ -945,7 +976,9 @@ ledger to ensure that its history is valid.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger event where the previous event
+can be accessed at 
+<code>https://example-consortium.com/private-ledgers/loans/real-estate/1</code>.
         </p>
         <pre class="example">
 {
@@ -991,10 +1024,13 @@ the ledger expects to be executed in order to reach consensus.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URI</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a proof of work consensus algorithm where the
+specific algorithm is <code>Bitcoin</code>. Note that this property requires a
+URL and <code>Bitcoin</code> is an alias for a URL like
+<code>https://example.com/algorithms/Bitcoin</code>.
         </p>
         <pre class="example">
 {
@@ -1005,7 +1041,6 @@ The example below expresses
 }
         </pre>
       </section>
-
 
       <section id="replacesObject" about="https://w3id.org/flex#replacesObject"
         typeof="rdf:Property">
@@ -1020,7 +1055,8 @@ Used to specify the set of objects to replace during a StorageEvent.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger storage event where an object 
+describing a real estate property is replaced with new information.
         </p>
         <pre class="example">
 {
@@ -1071,7 +1107,8 @@ important to the ledger application.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a ledger configuration event where the storage
+mechanism is a sequential list.
         </p>
         <pre class="example">
 {
@@ -1110,7 +1147,8 @@ The value is dependent on the proofOfWorkAlgorithm property.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below expresses
+The example below expresses a Bitcoin proof of work consensus algorithm where 
+the target difficulty is <code>199312067531.243</code>.
         </p>
         <pre class="example">
 {
