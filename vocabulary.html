@@ -221,7 +221,7 @@ event is typically only active after the next ConsensusEvent has taken place.
         <p>
 The example below describes a configuration event for a ledger. The 
 configuration event states that the storage mechanism for the ledger is a
-sequential list, and the consensus algorithm requires one valid signature:
+sequential list and the consensus algorithm requires one valid signature:
         </p>
 <pre class="example">
 {
@@ -259,7 +259,7 @@ of values, or modification of values.
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
-            <dd>addsObject, removesObject, modifiesObject, signature</dd>
+            <dd>addsObject, removesObject, replacesObject, signature</dd>
           </dl>
         <p>
 The example below describes a storage event containing a financial
@@ -1038,6 +1038,56 @@ URL and <code>Bitcoin</code> is an alias for a URL like
   "type": "ProofOfWork2016",
   "proofOfWorkAlgorithm": "Bitcoin",
   "targetDifficulty": "199312067531.243"
+}
+        </pre>
+      </section>
+
+      <section id="removesObject" about="https://w3id.org/flex#removesObject"
+        typeof="rdf:Property">
+        <h3>removesObject</h3>
+        <p>
+Used to specify the set of objects to remove during a StorageEvent.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below expresses a ledger storage event where an object 
+describing a real estate property is removed from the ledger. Note that a
+removal doesn't remove the object from history, it only removes the object
+from the active state in the state machine.
+        </p>
+        <pre class="example">
+{
+  "@context": [
+    "https://w3id.org/flex/v1",
+    "https://w3id.org/housing/v1",
+  ],
+  "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "type": "LedgerStorageEvent",
+  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "removesObject": [{
+    "id": "https://vhda.va.us.gov/properties/3829344",
+    "propertyAddress": {
+      "street": "263 Main Street",
+      "locality": "Webville",
+      "region": "VA",
+      "postalCode": "24736-3726",
+      "country": "US"
+    },
+    "owner": {
+      "name": "Jane Smith",
+      "postalAddress": { ... }
+  }],
+  "signature": {
+    "type": "LinkedDataSignature2016",
+    "created": "2016-02-22T02:10:21Z",
+    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
+    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+  }
 }
         </pre>
       </section>
