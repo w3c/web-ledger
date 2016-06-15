@@ -466,6 +466,8 @@ and requires only modest computing resources, lowering the barrier to entry.
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
+            <dt>Used by</dt>
+            <dd>consensusAlgorithm</dd>
             <dt>Expected properties</dt>
             <dd>quorum, minimumVotePercentage</dd>
           </dl>
@@ -498,6 +500,8 @@ have occurred to arrive at an answer.
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
+            <dt>Used by</dt>
+            <dd>consensusAlgorithm</dd>
             <dt>Expected properties</dt>
             <dd>targetDifficulty, proofOfWorkAlgorithm</dd>
           </dl>
@@ -528,6 +532,8 @@ past a given threshold have been registered.
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
+            <dt>Used by</dt>
+            <dd>consensusAlgorithm</dd>
             <dt>Expected properties</dt>
             <dd>minimumSignaturesRequired, approvedSigner</dd>
           </dl>
@@ -595,7 +601,7 @@ This property is typically used by LedgerStorageEvents.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>Thing</dd>
         </dl>
         <p>
 The example below expresses a ledger storage event where an object 
@@ -644,7 +650,7 @@ long-term auditability of the ledger.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URL</dd>
         </dl>
         <p>
 The example below describes a ledger configuration event with a proof of
@@ -686,7 +692,7 @@ state of the ledger.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URL</dd>
         </dl>
         <p>
 The example below expresses a ledger checkpoint event with a checkpointLog
@@ -721,7 +727,7 @@ used to ensure data integrity.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URI</dd>
         </dl>
         <p>
 The example below expresses a ledger checkpoint event with a checkpointLog
@@ -842,7 +848,7 @@ in a ledger.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>xsd:positiveInteger</dd>
         </dl>
         <p>
 The example below expresses a ledger configuration event specifying a
@@ -933,7 +939,7 @@ next event is for ledgers of a certain type.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URL</dd>
         </dl>
         <p>
 The example below expresses a ledger event where the next event 
@@ -973,7 +979,7 @@ ledger to ensure that its history is valid.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URL</dd>
         </dl>
         <p>
 The example below expresses a ledger event where the previous event
@@ -1052,7 +1058,7 @@ Used to specify the set of objects to remove during a StorageEvent.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>Thing</dd>
         </dl>
         <p>
 The example below expresses a ledger storage event where an object 
@@ -1102,7 +1108,7 @@ Used to specify the set of objects to replace during a StorageEvent.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>Thing</dd>
         </dl>
         <p>
 The example below expresses a ledger storage event where an object 
@@ -1154,7 +1160,7 @@ important to the ledger application.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dd>URI</dd>
         </dl>
         <p>
 The example below expresses a ledger configuration event where the storage
