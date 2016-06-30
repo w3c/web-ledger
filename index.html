@@ -314,7 +314,7 @@ contain more than these basic entries.
     <h2>Configuring the Ledger</h2>
 
     <p>
-Operational rules instruct software algorithms which rules should be applied
+Operational rules specify which software algorithms should be applied
 when processing a particular Web Ledger. The first entry in a Web Ledger is
 typically an operational rule entry.
     </p>
@@ -339,6 +339,12 @@ typically an operational rule entry.
   }
 }
     </pre>
+
+    <p class="issue">
+The use of <code>nextEvent</code> is unlikely here, it is more
+likely to be <code>prevEvent</code> and potentially include
+a hash of that event depending on configuration.
+    </p>
 
     <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
 {
