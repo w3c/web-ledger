@@ -340,12 +340,6 @@ typically an operational rule entry.
 }
     </pre>
 
-    <p class="issue">
-The use of <code>nextEvent</code> is unlikely here, it is more
-likely to be <code>prevEvent</code> and potentially include
-a hash of that event depending on configuration.
-    </p>
-
     <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
 {
   "@context": "https://w3id.org/flex/v1",
@@ -424,6 +418,12 @@ a hash of that event depending on configuration.
   ]
 }
     </pre>
+
+    <p class="issue">
+The use of <code>nextEvent</code> is unlikely here, it is more
+likely to be <code>prevEvent</code> and potentially include
+a hash of that event depending on configuration.
+    </p>
 
   </section>
 
