@@ -59,8 +59,8 @@
     "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},
     "signature": "sec:signature",
     "signatureAlgorithm": "sec:signatureAlgorithm",
-    "signatureValue": "sec:signatureValue"
+    "signatureValue": "sec:signatureValue",
     "storageMechanism": "flex:storageMechanism",
-    "targetDifficulty": "flex:targetDifficulty",
+    "targetDifficulty": "flex:targetDifficulty"
   }
 }
