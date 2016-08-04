@@ -438,7 +438,7 @@ a hash of that event depending on configuration.
 {
   "@context": [
     "https://w3id.org/flex/v1",
-    "https://w3id.org/housing/v1",
+    "https://w3id.org/housing/v1"
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
   "type": "LedgerStorageEvent",
@@ -455,6 +455,7 @@ a hash of that event depending on configuration.
     "owner": {
       "name": "Jane Smith",
       "postalAddress": { ... }
+    }
   }],
   "signature": {
     "type": "LinkedDataSignature2016",
@@ -469,20 +470,21 @@ a hash of that event depending on configuration.
 {
   "@context": [
     "https://w3id.org/flex/v1",
-    "https://w3id.org/dhs/credentials/v1",
+    "https://w3id.org/dhs/credentials/v1"
   ],
   "id": "https://example.us.gov/ledgers/emergency-response/2",
   "type": "LedgerStorageEvent",
   "previousEvent": "https://example.us.gov/ledgers/emergency-response/1",
   "replacesObject": [{
     "id": "https://example.us.gov/credentials/234234542",
-    "type": ["Credential", "EmergencyResponseCredential"]
+    "type": ["Credential", "EmergencyResponseCredential"],
     "claim": {
       "id": "did:3f32-23425-53-241442",
       "emsLicense": {
         "id": "FF-37-48573",
         "status": "valid"
       },
+    }
   }],
   "signature": {
     "type": "LinkedDataSignature2016",
@@ -504,7 +506,7 @@ a hash of that event depending on configuration.
   "previousEvent": "bytecoin:block:271863df2883ba637",
   "addsObject": [{
     "transaction": [{
-      "https://w3id.org/bytecoin/v1"
+      "@context": "https://w3id.org/bytecoin/v1",
       "source": "bytecoin:2892316f63778",
       "destination": "bytecoin:983bba526fd6",
       "input": [...], // the inputs to the transaction
