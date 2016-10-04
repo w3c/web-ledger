@@ -237,11 +237,15 @@ used throughout this document.
 model used for the technology.
       </li>
       <li>
-<a href="#syntax">Section 4: Syntax</a> describes the suggested
+<a href="#http-api">Section 4: The HTTP API</a> describes the mechanism that
+can be used to create, append, and query the ledger.
+      </li>
+      <li>
+<a href="#syntax">Section 5: Syntax</a> describes the suggested
 expression syntax for the data model.
       </li>
       <li>
-<a href="#operations">Section 5: Ledger Operations</a>
+<a href="#examples">Appendix A: Ledger Examples</a>
 describes how the rules of the ledger
 can be set and modified, how content is stored in the ledger, and how
 certain parts of the ledger can be optimized.
@@ -267,6 +271,10 @@ accomplish global goals. For example, an ant colony is a decentralized system
 as there is no central control determining when food must be collected or
 how new tunnels should be excavated.
   </dd>
+  <dt><dfn lt="genesis block|genesis blocks">genesis block</dfn></dt>
+  <dd>
+The first entry in a ledger.
+  </dd>
   <dt><dfn lt="state machine|state machines">state machine</dfn></dt>
   <dd>
 A system that when given a particular input changes from one internal state
@@ -288,6 +296,61 @@ state to on, thus illuminating the light bulb.
 To provide the greatest amount of flexibility, the data model is a graph.
 If a formalized data model is desired, RDF may be utilized but is not necessary.
   </p>
+
+  <p>
+A ledger consists of a series of entries. This section outlines the basic
+types of entries that all Web Ledgers support. A particular Web Ledger MAY
+contain more than these basic entries.
+  </p>
+
+  <section>
+    <h3>Configuration Blocks</h3>
+
+    <p>
+A configuration block specifies which software algorithms should be applied
+when processing a particular Web Ledger. The first entry in a Ledger is
+typically an entry called a <a>genesis block</a>.
+    </p>
+
+  </section>
+
+  <section>
+    <h3>Storage Blocks</h3>
+
+    <p>
+A storage block stores data in a ledger.
+    </p>
+
+  </section>
+
+  <section>
+    <h3>Consensus Blocks</h3>
+
+    <p>
+A consensus block is an assertion that there is agreement on a subset of entries
+in a ledger.
+    </p>
+
+  </section>
+
+  <section>
+    <h3>Checkpoint Blocks</h3>
+
+    <p>
+A checkpoint block may be used to quickly bootstrap new mirrors for a ledger.
+    </p>
+
+  </section>
+
+</section>
+
+<section id="http-api">
+  <h2>The HTTP API</h2>
+
+  <p>
+
+  </p>
+
 </section>
 
 <section id="syntax">
@@ -301,23 +364,12 @@ Other RDF-compatible syntaxes MAY also be used to express the ledger semantics.
   </p>
 </section>
 
-<section id="operations">
-  <h2>Ledger Operations</h2>
-
-  <p>
-A ledger consists of a series of entries. This section outlines the basic
-types of entries that all Web Ledgers support. A particular Web Ledger MAY
-contain more than these basic entries.
-  </p>
+<section id="examples" class="appendix informative">
+  <h2>Examples</h2>
 
   <section id="configuring">
     <h2>Configuring the Ledger</h2>
 
-    <p>
-Operational rules specify which software algorithms should be applied
-when processing a particular Web Ledger. The first entry in a Web Ledger is
-typically an operational rule entry.
-    </p>
 
     <pre class="example highlight" title="Example genesis entry for a simple signature-based ledger">
 {
