@@ -309,8 +309,66 @@ contain more than these basic entries.
     <p>
 A configuration block specifies which software algorithms should be applied
 when processing a particular Web Ledger. The first entry in a Ledger is
-typically an entry called a <a>genesis block</a>.
+typically an entry called a <a>genesis block</a>. The genesis block has the
+following basic layout:
     </p>
+
+    <pre class="example highlight" title="Example genesis block entry">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "id": EVENT_ID,
+  "type": "LedgerConfigurationEvent",
+  "ledgerConfig": {
+    "id": LEDGER_ID,
+    "type": "LedgerConfiguration",
+    "name": "example",
+    "description": "This is an example ledger.",
+    "storageMechanism": STORAGE_DATA_STRUCTURE,
+    "consensusAlgorithm": CONSENSUS_ALGORITHM,
+  "previousEvent": {
+    "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "signature": SIGNATURE_VALUE
+}
+    </pre>
+
+    <p>
+In the example above, <code>LEDGER_ID</code> is used to uniquely identify the
+ledger (e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427</code>).
+<code>EVENT_ID</code> is used to uniquely identify the event in the ledger
+(e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>.
+<code>STORAGE_DATA_STRUCTURE</code> is used to identify the storage mechanism
+that is used in the ledger (e.g. <code>SequentialList</code>) so that
+serializing and
+deserializing the contents of the ledger remains consistent across ledgers.
+<code>SIGNATURE_VALUE</code> is used to perform the cryptographic proof that
+the ledger entry was created by the entity identified in the signature.
+    </p>
+
+    <p>
+A standard configuration entry only differs from a genesis block in that the
+<code>previousEvent.hash</code> value is a hash of the previous block in the
+ledger.
+    </p>
+
+    <pre class="example highlight" title="Example configuration block entry">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "id": EVENT_ID,
+  "type": "LedgerConfigurationEvent",
+  "ledgerConfig": {
+    "id": LEDGER_ID,
+    "type": "LedgerConfiguration",
+    "name": "example",
+    "description": "This is an example ledger.",
+    "storageMechanism": STORAGE_DATA_STRUCTURE,
+    "consensusAlgorithm": CONSENSUS_ALGORITHM,
+  "previousEvent": {
+    "hash": "urn:sha256:abd465d34f7a3f0f7d849550eb9fc32c17d12881da6b524da0a96e12cc984538"
+  },
+  "signature": SIGNATURE_VALUE
+}
+    </pre>
 
   </section>
 
@@ -370,24 +428,34 @@ Other RDF-compatible syntaxes MAY also be used to express the ledger semantics.
   <section id="configuring">
     <h2>Configuring the Ledger</h2>
 
-
-    <pre class="example highlight" title="Example genesis entry for a simple signature-based ledger">
+    <pre id="example-genesis-block" class="example highlight" title="Example genesis entry for a simple signature-based ledger">
 {
   "@context": "https://w3id.org/flex/v1",
-  "id": "https://vhda.va.us.gov/ledgers/webville/houses/1",
+  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
   "type": "LedgerConfigurationEvent",
-  "storageMechanism": "SequentialList",
-  "consensusAlgorithm": {
-    "type": "ProofOfSignature2016",
-    "approvedSigner": "https://webville.va.us.gov/i/planning-department",
-    "minimumSignaturesRequired": 1
+  "ledgerConfig": {
+    "id": "did:f6ea280f-8011-4502-a29f-464954de3427",
+    "type": "LedgerConfiguration",
+    "name": "example",
+    "description": "example ledger",
+    "storageMechanism": "SequentialList",
+    "consensusAlgorithm": {
+      "type": "ProofOfSignature2016",
+      "approvedSigner": [
+        "https://blue.example.com/keys/j37f8",
+        "https://red.example.com/keys/83hfk",
+      ],
+      "minimumSignaturesRequired":1
+    }
   },
-  "nextEvent": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "previousEvent": {
+    "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
   "signature": {
-    "type": "LinkedDataSignature2016",
-    "created": "2016-02-21T02:10:21Z",
-    "creator": "https://webville.va.us.gov/i/planning-department/keys/1",
-    "signatureValue": "cNJGLFqT/d/90D4GFzv...yKPiw=="
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-05T11:47:26Z",
+    "creator": "http://blue.example.com/keys/j37f8",
+    "signatureValue": "RG+t2EbnMKr4zIwgncLHTb/JvAZ/EIXmTXrrad7DBdlchKPPC9j91N793eHY5UYx4zx7PTDnU2HlW9zqQD1EMBwI7TtqE7BfvxOFodjKJ/Aw16vpAmw2h2Jo9NBu4BvFWsLPCiMLHuW7Vxo7XDkGVfaZUqk/X2q/xpRmqJ1tOlNgivUH8bIm/TUAG3g90DMN9s5zImVyB4B20zMJk8K50BbpHYKUVNWCaHnv9F4VvUUa+AdNeNlC8W1F5j2WChyXzd+51bervxQErZUDFyocW/xEYPvJXPSGnL0ARBDggKQDe1M3bg8w7GnMGrJBieNZAuK2mxOtF2rOPDU3oMk3ZQ=="
   }
 }
     </pre>
