@@ -342,13 +342,14 @@ that is used in the ledger (e.g. <code>SequentialList</code>) so that
 serializing and
 deserializing the contents of the ledger remains consistent across ledgers.
 <code>SIGNATURE_VALUE</code> is used to perform the cryptographic proof that
-the ledger entry was created by the entity identified in the signature.
+the ledger entry was created by the entity identified in the signature. A more
+complete <a href="#example-genesis-block">example of a genesis block</a> is
+available in the appendix.
     </p>
 
     <p>
 A standard configuration entry only differs from a genesis block in that the
-<code>previousEvent.hash</code> value is a hash of the previous block in the
-ledger.
+<code>previousEvent</code> value refers to the block before the current block:
     </p>
 
     <pre class="example highlight" title="Example configuration block entry">
@@ -364,11 +365,21 @@ ledger.
     "storageMechanism": STORAGE_DATA_STRUCTURE,
     "consensusAlgorithm": CONSENSUS_ALGORITHM,
   "previousEvent": {
-    "hash": "urn:sha256:abd465d34f7a3f0f7d849550eb9fc32c17d12881da6b524da0a96e12cc984538"
+    "id": PREVIOUS_EVENT_ID,
+    "hash": PREVIOUS_EVENT_HASH
   },
   "signature": SIGNATURE_VALUE
 }
     </pre>
+
+    <p>
+The  <code>PREVIOUS_EVENT_ID</code> is the identifier of the previous
+block in the ledger (e.g.
+<code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>) and the
+<code>PREVIOUS_EVENT_HASH</code> value (e.g.
+<code>urn:sha256:abd465d34f7a3f0f7d849550eb9fc32c17d12881da6b524da0a96e12cc984538</code>
+is a hash of the previous block in the ledger.
+    </p>
 
   </section>
 
@@ -376,7 +387,34 @@ ledger.
     <h3>Storage Blocks</h3>
 
     <p>
-A storage block stores data in a ledger.
+A storage block stores data in a ledger and has the following general layout:
+    </p>
+
+    <pre class="example highlight" title="Example storage block entry">
+{
+  "@context": ["https://w3id.org/flex/v1", MARKET_VERTICAL_CONTEXT],
+  "id": EVENT_ID,
+  "type": "LedgerStorageEvent",
+  "replacesObject": [ UPDATE_OBJECTS ],
+  "previousEvent": {
+    "id": PREVIOUS_EVENT_ID
+    "hash": PREVIOUS_EVENT_HASH
+  },
+  "signature": SIGNATURE_VALUE
+}
+
+    </pre>
+
+    <p>
+When storing data in the ledger, one may use a
+<code>MARKET_VERTICAL_CONTEXT</code> to add semantics to the objects stored in
+<code>UPDATE_OBJECTS</code>
+(e.g. <code>https://w3id.org/vaccinations/v1</code>).
+<code>UPDATE_OBJECTS</code> are one or more JSON objects that can be stored in
+the ledger. It is expected that each object has a unique identifier to
+enable searching based on that identifier. A detailed
+<a href="example-storage-block">example of a storage block</a> is included in
+the appendix.
     </p>
 
   </section>
@@ -553,6 +591,36 @@ a hash of that event depending on configuration.
     <p>
 
     </p>
+
+    <pre id="example-storage-block" class="example highlight" title="Example storage event for vaccination">
+{
+  "@context": ["https://w3id.org/flex/v1", "https://w3id.org/dhs/v1"],
+  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/2",
+  "type": "LedgerStorageEvent",
+  "replacesObject": [{
+    "id": "https://hhs.gov/vaccinations/6080026",
+    "type": ["Credential", "VaccinationCredential"],
+    "claim": {
+      "id": "did:e277ce82-bf9d-413a-a6fe-fde877fd19b1",
+      "vaccination": {
+        "type": "IPV",
+        "vaccinationDate": "2004-07-17",
+        "vaccinationProvider": "Alameda County Hospital, California, USA"
+      }
+    }
+  }],
+  "previousEvent": {
+    "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
+    "hash": "urn:sha256:f04524659baa027ea49e7d0635bc6b1869d3e7d811f6bfefeb3aae1adcae0362"
+  },
+  "signature": {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-12T18:37:27Z",
+    "creator": "http://dhs2016ledger.digitalbazaar.com/keys/fema-key-1",
+    "signatureValue": "ITv0b9tTIjgBMgu4jUOsuU9Y2t9rsq+rKrbJHfcKWmDQZE1X6VpqKowv3l27WN0w5NyECIkJx6oy94nlM375ivmhQf6iYd6R7IizVBiRiLl3HeNXdaxBpyYMn6OiP8MYVdJt2g5vj+xhP9AadXnRL0TYmE6qH1LtOw42SQtfseQDb8xF1Bsjie7KmKK/G+B1yoKqg1L34NLSAnHpnqRGAen9OEMi0hwBrVD8HIRFkdCehh4T07HRrZe2mwhfY0gOA54j02qWZxidvYUYAV8vax4AhFyk0Vsaibo9yt85uU8Tc8a4e5hjS7nCAya8FMzDd0xEOp1q9MeC5vgJHKz29g=="
+  }
+}
+    </pre>
 
     <pre class="example highlight" title="Example storage event for a real-estate transaction.">
 {
