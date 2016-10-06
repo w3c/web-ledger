@@ -271,7 +271,7 @@ accomplish global goals. For example, an ant colony is a decentralized system
 as there is no central control determining when food must be collected or
 how new tunnels should be excavated.
   </dd>
-  <dt><dfn lt="genesis block|genesis blocks">genesis block</dfn></dt>
+  <dt><dfn lt="genesis event|genesis events">genesis event</dfn></dt>
   <dd>
 The first entry in a ledger.
   </dd>
@@ -304,16 +304,16 @@ contain more than these basic entries.
   </p>
 
   <section>
-    <h3>Configuration Blocks</h3>
+    <h3>Configuration Event</h3>
 
     <p>
-A configuration block specifies which software algorithms should be applied
+A configuration event specifies which software algorithms should be applied
 when processing a particular Web Ledger. The first entry in a Ledger is
-typically an entry called a <a>genesis block</a>. The genesis block has the
+typically an entry called a <a>genesis event</a>. The genesis event has the
 following basic layout:
     </p>
 
-    <pre class="example highlight" title="Example genesis block entry">
+    <pre class="example highlight" title="Example genesis event entry">
 {
   "@context": "https://w3id.org/flex/v1",
   "id": EVENT_ID,
@@ -343,16 +343,16 @@ serializing and
 deserializing the contents of the ledger remains consistent across ledgers.
 <code>SIGNATURE_VALUE</code> is used to perform the cryptographic proof that
 the ledger entry was created by the entity identified in the signature. A more
-complete <a href="#example-genesis-block">example of a genesis block</a> is
+complete <a href="#example-genesis-event">example of a genesis event</a> is
 available in the appendix.
     </p>
 
     <p>
-A standard configuration entry only differs from a genesis block in that the
-<code>previousEvent</code> value refers to the block before the current block:
+A standard configuration entry only differs from a genesis event in that the
+<code>previousEvent</code> value refers to the event before the current event:
     </p>
 
-    <pre class="example highlight" title="Example configuration block entry">
+    <pre class="example highlight" title="Example configuration event entry">
 {
   "@context": "https://w3id.org/flex/v1",
   "id": EVENT_ID,
@@ -374,23 +374,23 @@ A standard configuration entry only differs from a genesis block in that the
 
     <p>
 The  <code>PREVIOUS_EVENT_ID</code> is the identifier of the previous
-block in the ledger (e.g.
+event in the ledger (e.g.
 <code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>) and the
 <code>PREVIOUS_EVENT_HASH</code> value (e.g.
 <code>urn:sha256:abd465d34f7a3f0f7d849550eb9fc32c17d12881da6b524da0a96e12cc984538</code>
-is a hash of the previous block in the ledger.
+is a hash of the previous event in the ledger.
     </p>
 
   </section>
 
   <section>
-    <h3>Storage Blocks</h3>
+    <h3>Storage Event</h3>
 
     <p>
-A storage block stores data in a ledger and has the following general layout:
+A storage event stores data in a ledger and has the following general layout:
     </p>
 
-    <pre class="example highlight" title="Example storage block entry">
+    <pre class="example highlight" title="Example storage event entry">
 {
   "@context": ["https://w3id.org/flex/v1", MARKET_VERTICAL_CONTEXT],
   "id": EVENT_ID,
@@ -413,27 +413,27 @@ When storing data in the ledger, one may use a
 <code>UPDATE_OBJECTS</code> are one or more JSON objects that can be stored in
 the ledger. It is expected that each object has a unique identifier to
 enable searching based on that identifier. A detailed
-<a href="example-storage-block">example of a storage block</a> is included in
+<a href="example-storage-event">example of a storage event</a> is included in
 the appendix.
     </p>
 
   </section>
 
   <section>
-    <h3>Consensus Blocks</h3>
+    <h3>Consensus Event</h3>
 
     <p>
-A consensus block is an assertion that there is agreement on a subset of entries
+A consensus event is an assertion that there is agreement on a subset of entries
 in a ledger.
     </p>
 
   </section>
 
   <section>
-    <h3>Checkpoint Blocks</h3>
+    <h3>Checkpoint Event</h3>
 
     <p>
-A checkpoint block may be used to quickly bootstrap new mirrors for a ledger.
+A checkpoint event may be used to quickly bootstrap new mirrors for a ledger.
     </p>
 
   </section>
@@ -466,7 +466,7 @@ Other RDF-compatible syntaxes MAY also be used to express the ledger semantics.
   <section id="configuring">
     <h2>Configuring the Ledger</h2>
 
-    <pre id="example-genesis-block" class="example highlight" title="Example genesis entry for a simple signature-based ledger">
+    <pre id="example-genesis-event" class="example highlight" title="Example genesis entry for a simple signature-based ledger">
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
@@ -592,7 +592,7 @@ a hash of that event depending on configuration.
 
     </p>
 
-    <pre id="example-storage-block" class="example highlight" title="Example storage event for vaccination">
+    <pre id="example-storage-event" class="example highlight" title="Example storage event for vaccination">
 {
   "@context": ["https://w3id.org/flex/v1", "https://w3id.org/dhs/v1"],
   "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/2",
