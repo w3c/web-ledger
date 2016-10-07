@@ -402,7 +402,6 @@ A storage event stores data in a ledger and has the following general layout:
   },
   "signature": SIGNATURE_VALUE
 }
-
     </pre>
 
     <p>
@@ -422,9 +421,39 @@ the appendix.
   <section>
     <h3>Consensus Event</h3>
 
+    <p class="issue">
+It's currently not specified in a configuration event how often consensus
+events should occur. The options are: per event, or every N events. This is
+an active area of research and debate.
+    </p>
+
     <p>
 A consensus event is an assertion that there is agreement on a subset of entries
-in a ledger.
+in a ledger. Some ledgers do not require consensus events as each event
+establishes an acceptable level of consensus. Other ledgers require consensus
+events after a pre-determined amount of time. An example of the basic layout
+of a consensus event is shown below:
+    </p>
+
+    <pre class="example highlight" title="Example storage event entry">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "id": EVENT_ID,
+  "type": "ConsensusEvent",
+  "previousEvent": {
+    "id": PREVIOUS_EVENT_ID
+    "hash": PREVIOUS_EVENT_HASH
+  },
+  "signature": [ SIGNATURES ]
+}
+    </pre>
+
+    <p>
+A consensus event has a relatively simple definition. It consists of a
+number of <code>SIGNATURES</code> from notaries as determined by the previous
+configuration event. A more complete
+<a href="#example-consensus-event">example of a consensus event</a>
+is located in the appendix.
     </p>
 
   </section>
@@ -741,6 +770,43 @@ a hash of that event depending on configuration.
 }
     </pre>
 
+  </section>
+
+  <section id="consensus">
+    <h2>Recording Consensus</h2>
+
+    <pre id="example-consensus-event" class="example highlight" title="Example consensus event entry">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/100",
+  "type": "ConsensusEvent",
+  "previousEvent": {
+    "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/99",
+    "hash": "urn:sha256:0877a494ce1705117f917a3af3fc48190b1fdbca04fdba8e995fd6c15fb2fe71"
+  },
+  "signature": [{
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-12T19:54:12Z",
+    "creator": "https://notary1.example.org/keys/124",
+    "signatureValue": "skeJ4...lBUiI858="
+  }, {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-12T19:54:32Z",
+    "creator": "https://notary2.example.org/keys/f31",
+    "signatureValue": "iamOjOGncO...gRXfsG0="
+  }, {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-12T19:54:56Z",
+    "creator": "https://notary3.example.org/keys/35",
+    "signatureValue": "cPehH...iI858="
+  }, {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-12T19:54:23Z",
+    "creator": "https://notary4.example.org/keys/ugref2",
+    "signatureValue": "hMaD22...ONwzsgo="
+  }]
+}
+    </pre>
   </section>
 
   <section id="checkpointing">
