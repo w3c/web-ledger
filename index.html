@@ -463,6 +463,37 @@ is located in the appendix.
 
     <p>
 A checkpoint event may be used to quickly bootstrap new mirrors for a ledger.
+An example of the basic layout of a checkpoint event is shown below:
+    </p>
+
+    <pre class="example highlight" title="Example checkpoint event">
+{
+  "@context": "https://w3id.org/flex/v1",
+  "id": EVENT_ID,
+  "type": "LedgerCheckpointEvent",
+  "checkpointLog": CHECKPOINT_LOG_URL,
+  "checkpointLogHash": CHECKPOINT_LOG_HASH,
+  "signature": [ SIGNATURES ]
+}
+    </pre>
+
+    <p>
+A checkpoint event declares a <code>CHECKPOINT_LOG_URL</code>
+(e.g. <code>https://example.org/ledgers/example/checkpoints/132</code>) and a
+<code>CHECKPOINT_LOG_HASH</code>
+(e.g. <code>urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23</code>).
+All notaries typically download the checkpoint log and
+check it before providing signatures noting that the checkpoint log is valid.
+There is a detailed
+<a href="#example-checkpoint-event">example of a checkpoint event</a>
+in the appendix.
+    </p>
+
+    <p class="issue">
+How checkpoints are generated are a current topic of debate. The configuration
+event doesn't specify how often checkpoints can/should happen. It is also
+debatable that a checkpoint should be included in a consensus event and
+shouldn't be a separate event.
     </p>
 
   </section>
@@ -475,7 +506,6 @@ A checkpoint event may be used to quickly bootstrap new mirrors for a ledger.
   <p>
 
   </p>
-
 </section>
 
 <section id="syntax">
@@ -823,7 +853,7 @@ are that useful at all? Seems to be the only use is a link
 to a compressed/checksummed file?
     </p>
 
-    <pre class="example highlight" title="Example checkpoint event used to serialize">
+    <pre id="example-checkpoint-event" class="example highlight" title="Example checkpoint event used to serialize">
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
