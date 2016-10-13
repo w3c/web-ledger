@@ -111,11 +111,11 @@ history, and the type of data that can be stored in the ledger.
       <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
 
     <li>Specification bugs and issues should be reported in the
-      <a href="https://github.com/web-payments/flex-ledger/issues">issue tracker</a>
+      <a href="https://github.com/web-payments/web-ledger/issues">issue tracker</a>
       if you do not want to send an e-mail to the public-webpayments mailing
       list.</li>
 
-    <li><a href="https://github.com/web-payments/flex-ledger">Source code</a>
+    <li><a href="https://github.com/web-payments/web-ledger/tree/master/">Source code</a>
       for the specification can be found on Github.</li>
 
   </ul>
@@ -421,7 +421,7 @@ the appendix.
   <section>
     <h3>Consensus Event</h3>
 
-    <p class="issue">
+    <p class="issue" title="Consensus feature is highly experimental">
 It's currently not specified in a configuration event how often consensus
 events should occur. The options are: per event, or every N events. This is
 an active area of research and debate.
@@ -489,7 +489,7 @@ There is a detailed
 in the appendix.
     </p>
 
-    <p class="issue">
+    <p class="issue" title="Checkpointing feature is highly experimental">
 How checkpoints are generated are a current topic of debate. The configuration
 event doesn't specify how often checkpoints can/should happen. It is also
 debatable that a checkpoint should be included in a consensus event and
@@ -504,8 +504,107 @@ shouldn't be a separate event.
   <h2>The HTTP API</h2>
 
   <p>
-
+The previous section defined the data model and messages that can be used
+to create and operate a ledger. This section provides the HTTP API endpoints
+that may be used in conjunction with the messages in the previous section to
+create and operate a ledger.
   </p>
+
+  <p class="issue" title="The HTTP API is a Work in Progress">
+Note that the API proposed here only has one implementation and, while designed
+to be flexible, does not have enough deployment experience to be used in
+production systems that require strong interoperability guarantees. This is
+a work in progress.
+  </p>
+
+  <table class="simple">
+    <thead>
+      <th>Service</th>
+      <th>Example URL</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ledgerCreateService</td>
+        <td>POST /ledgers</td>
+        <td>Create a ledger.</td>
+      </tr>
+      <tr>
+        <td>ledgerListService</td>
+        <td>GET /ledgers</td>
+        <td>Get all ledgers.</td>
+      </tr>
+      <tr>
+        <td>ledgerMetadataService</td>
+        <td>GET /ledgers/{ledger}</td>
+        <td>Get ledger metadata.</td>
+      </tr>
+      <tr>
+        <td>ledgerStateService</td>
+        <td>GET /ledgers/{ledger}/state</td>
+        <td>Get current ledger state.</td>
+      </tr>
+      <tr>
+        <td>ledgerAppendService</td>
+        <td>POST /ledgers/{ledger}</td>
+        <td>Add event to ledger.</td>
+      </tr>
+      <tr>
+        <td>ledgerReadService</td>
+        <td>GET /ledgers/{ledger}/events/{eventId}</td>
+        <td>Get event from ledger.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <section>
+    <h3>Create Service</h3>
+    
+    <p>
+      
+    </p>
+  </section>
+
+  <section>
+    <h3>List Service</h3>
+    
+    <p>
+      
+    </p>
+  </section>
+  
+  <section>
+    <h3>Metadata Service</h3>
+    
+    <p>
+      
+    </p>
+  </section>
+  
+  <section>
+    <h3>State Service</h3>
+    
+    <p>
+      
+    </p>
+  </section>
+  
+  <section>
+    <h3>Append Service</h3>
+    
+    <p>
+      
+    </p>
+  </section>
+  
+  <section>
+    <h3>Read Service</h3>
+    
+    <p>
+      
+    </p>
+  </section>
+  
 </section>
 
 <section id="syntax">
@@ -685,7 +784,7 @@ a hash of that event depending on configuration.
 {
   "@context": [
     "https://w3id.org/flex/v1",
-    "https://w3id.org/housing/v1"
+    "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
   "type": "LedgerStorageEvent",
@@ -702,7 +801,6 @@ a hash of that event depending on configuration.
     "owner": {
       "name": "Jane Smith",
       "postalAddress": { ... }
-    }
   }],
   "signature": {
     "type": "LinkedDataSignature2016",
@@ -717,21 +815,20 @@ a hash of that event depending on configuration.
 {
   "@context": [
     "https://w3id.org/flex/v1",
-    "https://w3id.org/dhs/credentials/v1"
+    "https://w3id.org/dhs/credentials/v1",
   ],
   "id": "https://example.us.gov/ledgers/emergency-response/2",
   "type": "LedgerStorageEvent",
   "previousEvent": "https://example.us.gov/ledgers/emergency-response/1",
   "replacesObject": [{
     "id": "https://example.us.gov/credentials/234234542",
-    "type": ["Credential", "EmergencyResponseCredential"],
+    "type": ["Credential", "EmergencyResponseCredential"]
     "claim": {
       "id": "did:3f32-23425-53-241442",
       "emsLicense": {
         "id": "FF-37-48573",
         "status": "valid"
       },
-    }
   }],
   "signature": {
     "type": "LinkedDataSignature2016",
@@ -753,7 +850,7 @@ a hash of that event depending on configuration.
   "previousEvent": "bytecoin:block:271863df2883ba637",
   "addsObject": [{
     "transaction": [{
-      "@context": "https://w3id.org/bytecoin/v1",
+      "https://w3id.org/bytecoin/v1"
       "source": "bytecoin:2892316f63778",
       "destination": "bytecoin:983bba526fd6",
       "input": [...], // the inputs to the transaction
