@@ -289,12 +289,22 @@ state to on, thus illuminating the light bulb.
 
 </section>
 
-<section id="data-model">
-  <h2>The Data Model</h2>
+<section>
+  <h2>Data Model</h2>
 
   <p>
 To provide the greatest amount of flexibility, the data model is a graph.
 If a formalized data model is desired, RDF may be utilized but is not necessary.
+  </p>
+
+  <p>
+To ensure that the syntax will be easily adopted by developers, and supports
+a graph-based data model, it is RECOMMENDED that the implementation syntax is
+JSON-LD (or similarly compatible syntax). Other RDF-compatible syntaxes MAY
+also be used to express the ledger semantics. This ensures that the syntax is
+processable by widely adopted JSON tooling while also ensuring that the
+data model is robust enough to handle decentralized extensibility without
+name clashes or conflicts.
   </p>
 
   <p>
@@ -500,8 +510,8 @@ shouldn't be a separate event.
 
 </section>
 
-<section id="http-api">
-  <h2>The HTTP API</h2>
+<section>
+  <h2>HTTP API</h2>
 
   <p>
 The previous section defined the data model and messages that can be used
@@ -540,86 +550,630 @@ a work in progress.
         <td>Get ledger metadata.</td>
       </tr>
       <tr>
-        <td>ledgerStateService</td>
-        <td>GET /ledgers/{ledger}/state</td>
-        <td>Get current ledger state.</td>
-      </tr>
-      <tr>
         <td>ledgerAppendService</td>
         <td>POST /ledgers/{ledger}</td>
         <td>Add event to ledger.</td>
       </tr>
       <tr>
-        <td>ledgerReadService</td>
+        <td>ledgerIndexService</td>
         <td>GET /ledgers/{ledger}/events/{eventId}</td>
         <td>Get event from ledger.</td>
       </tr>
+      <tr>
+        <td>ledgerQueryService</td>
+        <td>GET /ledgers/{ledger}/state</td>
+        <td>Query the current state of the ledger.</td>
+      </tr>
     </tbody>
   </table>
-  
+
+  <section>
+    <h3>Discovering Service Endpoints</h3>
+
+    <p>
+A website may provide service endpoint discover by embedding JSON-LD in their
+top-most HTML web page (e.g. at <code>https://example.com/</code>):
+    </p>
+
+    <pre class="example highlight" title="Example of HTML-based service description">
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+  &lt;head>
+    &lt;meta charset="utf-8">
+    &lt;title>Example Website&lt;/title>
+    &lt;link rel="stylesheet" href="style.css">
+    &lt;script src="script.js">&lt;/script>
+    &lt;script type="application/ld+json">
+{
+  "@context": "https://w3id.org/web-services/v1",
+  "id": "https://example.com/",
+  "name": "Example Website",
+  "ledgerCreateService": "https://example.com/ledgers",
+  "ledgerListService": "https://example.com/ledgers"
+}
+    &lt;/script>
+  &lt;/head>
+  &lt;body>
+    &lt;!-- page content -->
+  &lt;/body>
+&lt;/html>
+    </pre>
+
+    <p>
+Service descriptions may also be requested via content negotiation.
+In the following example a JSON-compatible service description is provided
+(e.g. <code>curl -H "Accept: application/json" https://example.com/</code>):
+    </p>
+
+    <pre class="example highlight" title="Example of a JSON-based service description">
+{
+  "@context": "https://w3id.org/web-services/v1",
+  "id": "https://example.com/",
+  "name": "Example Website",
+  "ledgerCreateService": "https://example.com/ledgers",
+  "ledgerListService": "https://example.com/ledgers"
+}
+    </pre>
+
+  </section>
+
   <section>
     <h3>Create Service</h3>
-    
+
     <p>
-      
+A ledger is created by performing an HTTP POST of a
+<a href="#configuration-event">LedgerConfigurationEvent</a>
+to the <code>ledgerCreateService</code>. The following HTTP status codes
+are defined for this service:
     </p>
+
+    <table class="simple">
+      <thead>
+        <th style="white-space: nowrap">HTTP Status</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>201</td>
+          <td>
+Ledger creation was successful. The HTTP <code>Location</code> header will
+contain the URL for the newly created ledger.
+          </td>
+        </tr>
+        <tr>
+          <td>400</td>
+          <td>Ledger creation failed.</td>
+        </tr>
+        <tr>
+          <td>409</td>
+          <td>A duplicate ledger exists.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+An example exchange of a ledger creation is shown below:
+    </p>
+
+    <pre class="example highlight" title="Ledger creation request">
+POST /ledgers HTTP/1.1
+Host: example.com
+Content-Type: application/ld+json
+Content-Length: 1062
+Accept: application/ld+json, application/json, text/plain, */*
+Accept-Encoding: gzip, deflate
+
+{
+  "@context": "https://w3id.org/flex/v1",
+  "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef/events/1",
+  "type": "LedgerConfigurationEvent",
+  "ledgerConfig": {
+    "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef",
+    "type": "LedgerConfiguration",
+    "name": "example",
+    "description": "An example ledger.",
+    "storageMechanism": "SequentialList",
+    "consensusAlgorithm": {
+      "type": "ProofOfSignature2016",
+      "approvedSigner": [
+        "http://blue.example.com/keys/234",
+        "http://red.example.com/keys/987",
+      ],
+      "minimumSignaturesRequired":1
+    }
+  },
+  "previousEvent": {
+    "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "signature": {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-14T18:35:33Z",
+    "creator": "http://blue.example.com/keys/234",
+    "signatureValue": "HvfvRQ57EO...J0Q=="
+  }
+}
+    </pre>
+
+    <p>
+If the creation of the ledger was successful, an HTTP 201 status code is
+expected in return:
+    </p>
+
+    <pre class="example highlight" title="Successful ledger creation response">
+HTTP/1.1 201 Created
+Location: http://dhs2016ledger.digitalbazaar.com/ledgers/example
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Fri, 14 Oct 2016 18:35:33 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+    </pre>
+
   </section>
 
   <section>
     <h3>List Service</h3>
-    
+
     <p>
-      
+One can get a list of active ledgers on a server by performing an HTTP GET on
+the <code>ledgerListService</code>. The following HTTP status codes
+are defined for this service:
     </p>
+
+    <table class="simple">
+      <thead>
+        <th style="white-space: nowrap">HTTP Status</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>200</td>
+          <td>
+The list of ledgers was found and will be returned in the body of the response.
+          </td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>
+The list of ledgers was not found at the given URL.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+An example exchange of getting a list of ledgers on an HTTP server is shown
+below:
+    </p>
+
+    <pre class="example highlight" title="">
+GET /ledgers HTTP/1.1
+Host: example.com
+Connection: keep-alive
+Accept: application/ld+json, application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+    </pre>
+
+    <p>
+If retrieving the list of ledgers is successful, a HTTP 200 response is
+expected:
+    </p>
+
+    <pre class="example highlight" title="">
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+Access-Control-Allow-Origin: *
+Vary: Accept, Accept-Encoding
+Content-Type: application/ld+json; charset=utf-8
+Etag: W/"91d-mHiDWL0kix4rxP7JCtfVCA"
+Content-Encoding: gzip
+Date: Fri, 14 Oct 2016 18:46:04 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+  "ledger": [
+    {
+      "id": "https://example.com/ledgers/example",
+      "name": "example",
+      "ledgerMetadataService": "https://example.com/ledgers/example",
+      "ledgerStateService": "https://example.com/ledgers/example/state",
+      "ledgerAppendService": "https://example.com/ledgers/example",
+      "ledgerIndexService": "https://example.com/ledgers/example/events",
+      "ledgerConfig": {
+        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30",
+        "type": "LedgerConfiguration",
+        "name": "example",
+        "description": "An example ledger.",
+        "storageMechanism": "SequentialList",
+        "consensusAlgorithm": {
+          "type": "ProofOfSignature2016",
+          "approvedSigner": [
+            "https://blue.example.com/keys/234",
+            "https://red.example.com/keys/789"
+          ],
+          "minimumSignaturesRequired":1
+        }
+      },
+      "latestEvent": {
+        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+        "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
+      },
+      "nextEvent": {
+        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2"
+      }
+    },
+    {
+      ... NEXT_LEDGER_IN_LIST ...
+    }
+  ]
+}
+    </pre>
+
   </section>
-  
+
   <section>
     <h3>Metadata Service</h3>
-    
+
     <p>
-      
+The metadata related to a ledger may be fetched by performing an HTTP GET
+on the <code>ledgerMetadataService</code>. The following HTTP status codes
+are defined for this service:
     </p>
-  </section>
-  
-  <section>
-    <h3>State Service</h3>
-    
+
+    <table class="simple">
+      <thead>
+        <th style="white-space: nowrap">HTTP Status</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>200</td>
+          <td>
+The ledger metadata was found and will be returned in the body of the response.
+          </td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>
+The ledger metadata was not found at the given URL.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <p>
-      
+An example exchange of fetching metadata for a ledger is shown below:
     </p>
+
+
+    <pre class="example highlight" title="">
+GET /ledgers/example HTTP/1.1
+Host: example.com
+Connection: keep-alive
+Accept: application/ld+json, application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+    </pre>
+
+    <p>
+If retrieving the ledger metadata is successful, an HTTP 200 response is
+expected:
+    </p>
+
+    <pre class="example highlight" title="">
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+Access-Control-Allow-Origin: *
+Vary: Accept, Accept-Encoding
+Content-Type: application/ld+json; charset=utf-8
+Etag: W/"91d-mHiDWL0kix4rxP7JCtfVCA"
+Content-Encoding: gzip
+Date: Fri, 14 Oct 2016 18:46:04 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+  "id": "https://example.com/ledgers/example",
+  "name": "example",
+  "ledgerMetadataService": "https://example.com/ledgers/example",
+  "ledgerStateService": "https://example.com/ledgers/example/state",
+  "ledgerAppendService": "https://example.com/ledgers/example",
+  "ledgerIndexService": "https://example.com/ledgers/example/events",
+  "ledgerConfig": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30",
+    "type": "LedgerConfiguration",
+    "name": "example",
+    "description": "An example ledger.",
+    "storageMechanism": "SequentialList",
+    "consensusAlgorithm": {
+      "type": "ProofOfSignature2016",
+      "approvedSigner": [
+        "https://blue.example.com/keys/234",
+        "https://red.example.com/keys/789"
+      ],
+      "minimumSignaturesRequired":1
+    }
+  },
+  "latestEvent": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+    "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
+  },
+  "nextEvent": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2"
+  }
+}
+    </pre>
+
   </section>
-  
+
   <section>
     <h3>Append Service</h3>
-    
+
     <p>
-      
+Appending to a ledger can be achieved by performing an HTTP POST of a
+<a href="#storage-event">LedgerStorageEvent</a>
+to the <code>ledgerAppendService</code>. The following HTTP status codes
+are defined for this service:
     </p>
+
+    <table class="simple">
+      <thead>
+        <th style="white-space: nowrap">HTTP Status</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>201</td>
+          <td>
+The ledger event was sucessfully appended.
+          </td>
+        </tr>
+        <tr>
+          <td>400</td>
+          <td>
+The ledger event failed to be appended.
+          </td>
+        </tr>
+        <tr>
+          <td>409</td>
+          <td>
+The ledger event with the given identifier already exists.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+An example of an event being appended to a ledger is shown below:
+    </p>
+
+    <pre class="example highlight" title="">
+POST /ledgers/example HTTP/1.1
+Host: example.com
+Connection: keep-alive
+Content-Length: 1054
+Content-Type: application/json;charset=UTF-8
+Accept: application/ld+json, application/json, text/plain, */*
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.8
+
+{
+  "@context": ["https://w3id.org/flex/v1", "https://w3id.org/fema/v1"],
+  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2",
+  "type": "LedgerStorageEvent",
+  "replacesObject": [{
+    "id": "https://fema.gov/credentials/9754457",
+    "type": ["Credential", "EmergencyResponderCredential"],
+    "claim": {
+      "id": "did:bc380e48-a6d9-4602-ab20-1beb403d4bcc",
+      "emsLicense": {
+        "id": "ems:FF-12-01655",
+        "status": "valid"
+      }
+    }
+  }],
+  "previousEvent": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+    "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
+  },
+  "signature": {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-14T19:47:15Z",
+    "creator": "https://example.com/keys/fema-key-1",
+    "signatureValue": "JoS27wqaTX...s0mpBFMgXIMw=="
+  }
+}
+    </pre>
+
+    <p>
+If the storage attempt is successful, a HTTP 200 response is expected:
+    </p>
+
+    <pre class="example highlight" title="">
+HTTP/1.1 201 Created
+Location: https://example.com/ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+Date: Fri, 14 Oct 2016 19:47:16 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+    </pre>
+
   </section>
-  
+
   <section>
     <h3>Read Service</h3>
-    
+
     <p>
-      
+A ledger read for an event is achieved by performing an HTTP GET on
+a ledger event identifier. The list of ledger events is available by performing
+an HTTP GET on the <code>ledgerIndexService</code>. The following HTTP status
+codes are defined for this service:
     </p>
+
+    <table class="simple">
+      <thead>
+        <th style="white-space: nowrap">HTTP Status</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>200</td>
+          <td>
+Retrieval of the ledger event was successful.
+          </td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>
+The ledger event was not found at the given URL.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+An example retrieval of a ledger event is shown below:
+    </p>
+
+    <pre class="example highlight" title="">
+GET /ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2 HTTP/1.1
+Host: example.com
+Connection: keep-alive
+Accept: application/ld+json, application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+    </pre>
+
+    <p>
+If the ledger event retrieval is successful, a HTTP 200 response is expected:
+    </p>
+
+    <pre class="example highlight" title="">
+HTTP/1.1 200 OK
+Cache-Control: no-cache, no-store, must-revalidate
+Pragma: no-cache
+Expires: 0
+Access-Control-Allow-Origin: *
+Vary: Accept, Accept-Encoding
+Content-Type: application/ld+json; charset=utf-8
+Etag: W/"41e-PJKXv/OxofX29WykKb3PZg"
+Content-Encoding: gzip
+Date: Fri, 14 Oct 2016 20:20:44 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+{
+  "@context": ["https://w3id.org/flex/v1", "https://w3id.org/fema/v1"],
+  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2",
+  "type": "LedgerStorageEvent",
+  "replacesObject": [{
+    "id": "https://fema.gov/credentials/9754457",
+    "type": ["Credential", "EmergencyResponderCredential"],
+    "claim": {
+      "id": "did:bc380e48-a6d9-4602-ab20-1beb403d4bcc",
+      "emsLicense": {
+        "id": "ems:FF-12-01655",
+        "status": "valid"
+      }
+    }
+  }],
+  "previousEvent": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+    "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
+  },
+  "signature": {
+    "type": "LinkedDataSignature2015",
+    "created": "2016-10-14T19:47:15Z",
+    "creator": "http://example.com/keys/789",
+    "signatureValue": "JoS27wqa...BFMgXIMw=="
+  }
+}
+    </pre>
+
   </section>
-  
-</section>
 
-<section id="syntax">
-  <h2>The Suggested Syntax</h2>
 
-  <p>
-To ensure that the syntax will be easily adopted by developers, and supports
-a graph-based data model, it is RECOMMENDED that the implementation syntax is
-JSON-LD (or similarly compatible syntax).
-Other RDF-compatible syntaxes MAY also be used to express the ledger semantics.
-  </p>
+  <section>
+    <h3>Query Service</h3>
+
+    <p>
+The current state machine of a ledger may be queried by performing an
+HTTP GET on the <code>ledgerQueryService</code>. The following HTTP status
+codes are defined for this service:
+    </p>
+
+    <table class="simple">
+      <thead>
+        <th style="white-space: nowrap">HTTP Status</th>
+        <th>Description</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>200</td>
+          <td>
+Retrieval of the latest state machine object was successful.
+          </td>
+        </tr>
+        <tr>
+          <td>400</td>
+          <td>
+The query was malformed.
+          </td>
+        </tr>
+        <tr>
+          <td>404</td>
+          <td>
+The given state machine object was not found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+An example query of a state machine in a ledger is shown below:
+    </p>
+
+    <pre class="example highlight" title="">
+GET /ledgers/example/state?query=upc:956578900933 HTTP/1.1
+Host: example.com
+Connection: keep-alive
+Accept: application/ld+json, application/json, text/plain, */*
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+    </pre>
+
+    <p>
+If the query is successful, a HTTP 200 response is expected:
+    </p>
+
+    <pre class="example highlight" title="">
+{
+  "id": "http://www.coupon-clearing.org/coupons/486211708",
+  "type": ["Credential", "DiscountCoupon"],
+  "claim": {
+    "id": "upc:956578900933",
+    "discount": "$3",
+    "description": "Discount when you buy 5 pounds of JuicyGreen Apples",
+    "status": "redeemed"
+  }
+}
+    </pre>
+
+  </section>
+
 </section>
 
 <section id="examples" class="appendix informative">
-  <h2>Examples</h2>
+  <h2>Industry-specific Examples</h2>
 
   <section id="configuring">
     <h2>Configuring the Ledger</h2>
