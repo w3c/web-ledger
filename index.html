@@ -373,19 +373,32 @@ contain more than these basic entries.
   </p>
 
   <section>
+    <h3>Blocks</h3>
+
+    <p>
+A <a>block</a> contains one or more changes to the <a>state machine</a>.
+Blocks are typically used as a storage optimization to bundle a set of
+changes to the <a>state machine</a>. There can be many types of blocks.
+This specification details the basic set of blocks that all Web Ledgers
+may express.
+    </p>
+
+  </section>
+
+  <section>
     <h3>Configuration Block</h3>
 
     <p>
-A configuration event specifies which software algorithms should be applied
+A configuration block specifies which software algorithms should be applied
 when processing a particular Web Ledger. The first entry in a Ledger is
-typically an entry called a <a>genesis event</a>. The genesis event has the
+typically an entry called a <a>genesis block</a>. The genesis block has the
 following basic layout:
     </p>
 
-    <pre class="example highlight" title="Example genesis event entry">
+    <pre class="example highlight" title="Example genesis block">
 {
   "@context": "https://w3id.org/flex/v1",
-  "id": EVENT_ID,
+  "id": BLOCK_ID,
   "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": LEDGER_ID,
@@ -404,27 +417,28 @@ following basic layout:
     <p>
 In the example above, <code>LEDGER_ID</code> is used to uniquely identify the
 ledger (e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427</code>).
-<code>EVENT_ID</code> is used to uniquely identify the event in the ledger
+<code>BLOCK_ID</code> is used to uniquely identify the <a>block</a> in the ledger
 (e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>.
 <code>STORAGE_DATA_STRUCTURE</code> is used to identify the storage mechanism
 that is used in the ledger (e.g. <code>SequentialList</code>) so that
 serializing and
 deserializing the contents of the ledger remains consistent across ledgers.
 <code>SIGNATURE_VALUE</code> is used to perform the cryptographic proof that
-the ledger entry was created by the entity identified in the signature. A more
-complete <a href="#example-genesis-event">example of a genesis event</a> is
+the ledger block was created by the entity identified in the signature. A more
+complete <a href="#example-genesis-block">example of a genesis block</a> is
 available in the appendix.
     </p>
 
     <p>
-A standard configuration entry only differs from a genesis event in that the
-<code>previousBlock</code> value refers to the event before the current event:
+A standard configuration block update only differs from a genesis block in
+that the <code>previousBlock</code> value refers to the block before the
+current block:
     </p>
 
-    <pre class="example highlight" title="Example configuration event entry">
+    <pre class="example highlight" title="Example configuration block update">
 {
   "@context": "https://w3id.org/flex/v1",
-  "id": EVENT_ID,
+  "id": BLOCK_ID,
   "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": LEDGER_ID,
@@ -434,20 +448,20 @@ A standard configuration entry only differs from a genesis event in that the
     "storageMechanism": STORAGE_DATA_STRUCTURE,
     "consensusAlgorithm": CONSENSUS_ALGORITHM,
   "previousBlock": {
-    "id": PREVIOUS_EVENT_ID,
-    "hash": PREVIOUS_EVENT_HASH
+    "id": PREVIOUS_BLOCK_ID,
+    "hash": PREVIOUS_BLOCK_HASH
   },
   "signature": SIGNATURE_VALUE
 }
     </pre>
 
     <p>
-The  <code>PREVIOUS_EVENT_ID</code> is the identifier of the previous
-event in the ledger (e.g.
+The  <code>PREVIOUS_BLOCK_ID</code> is the identifier of the previous
+block in the ledger (e.g.
 <code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>) and the
-<code>PREVIOUS_EVENT_HASH</code> value (e.g.
+<code>PREVIOUS_BLOCK_HASH</code> value (e.g.
 <code>urn:sha256:abd465d34f7a3f0f7d849550eb9fc32c17d12881da6b524da0a96e12cc984538</code>
-is a hash of the previous event in the ledger.
+is a hash of the previous block in the ledger.
     </p>
 
   </section>
