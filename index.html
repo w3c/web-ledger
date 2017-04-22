@@ -68,6 +68,20 @@ var respecConfig = {
   // name (with the @w3c.org) of the public mailing to which comments are due
   wgPublicList: "public-blockchain",
 
+  otherLinks: [{
+    key: "Source control",
+    data: [{
+      value: "https://github.com/w3c/web-ledger/",
+      href: "https://github.com/w3c/web-ledger/"
+    }]
+  }, {
+    key: "Issue Tracker",
+    data: [{
+      value: "https://github.com/w3c/web-ledger/issues/",
+      href: "https://github.com/w3c/web-ledger/issues/"
+    }]
+  }],
+
   // URI of the patent status for this WG, for Rec-track documents
   // !!!! IMPORTANT !!!!
   // This is important for Rec-track documents, do not copy a patent URI from a random
@@ -176,6 +190,20 @@ As the system processes each type of event, its underlying state changes.
   </figure>
 
   <p>
+It is typically important to optimize the storage of the events and
+package these events into a data structure called a <a>block</a>. These
+<a>blocks</a> are then "chained" together into a system that is often
+referred to as a <a>blockchain</a>.
+  </p>
+  <figure>
+    <img src="diagrams/blockchain.svg" />
+    <figcaption>
+Events are typically packaged into blocks for the purposes of storage
+efficiency.
+    </figcaption>
+  </figure>
+
+  <p>
 In certain decentralized systems, like financial or healthcare systems,
 auditing these states and events is important to ensure that they are
 operating in an acceptable way from a regulatory perspective.
@@ -184,7 +212,8 @@ of the system design, but has not been a practical endeavor until recently.
   </p>
   <p>
 Due to recent advances in cryptography and decentralized systems design a new
-set of technologies called <a>cryptographic ledgers</a> have enabled the
+set of technologies called <a>cryptographic ledgers</a>
+(aka <a>blockchains</a>) have enabled the
 recording of state and events in a ledger where the ledger can be distributed
 and independently verified using cryptography. Some of these ledger systems are
 <em>trustless</em>, meaning that no trust (other than a trust in mathematics) is
@@ -262,6 +291,20 @@ certain parts of the ledger can be optimized.
 
 
 <dl class="termlist">
+  <dt><dfn lt="block|blocks">block</dfn></dt>
+  <dd>
+A data structure that contains one or more <a>ledger</a> <a>events</a>.
+  </dd>
+  <dt><dfn lt="blockchain|blockchains">blockchain</dfn></dt>
+  <dd>
+A <a>ledger</a> containing a series of <a>blocks</a> where the ordering of
+the blocks can be mathematically proven to be correct.
+  </dd>
+  <dt><dfn lt="consensus algorithm|consensus algorithms">consensus algorithm</dfn></dt>
+  <dd>
+An algorithm that enables multiple nodes in a network to make a decision
+in a deterministic fashion.
+  </dd>
   <dt><dfn lt="cryptographic ledger|cryptographic ledgers|ledger">cryptographic ledger</dfn></dt>
   <dd>
 A method of recording changes in a <a>state machine</a> where the
@@ -274,9 +317,22 @@ accomplish global goals. For example, an ant colony is a decentralized system
 as there is no central control determining when food must be collected or
 how new tunnels should be excavated.
   </dd>
+  <dt><dfn lt="decentralized ledger|decentralized ledgers">decentralized ledger</dfn></dt>
+  <dd>
+A <a>cryptographic ledger</a> that uses a <a>consensus algorithm</a> that
+enables a network of ledger nodes to come to consensus in a
+decentralized yet deterministic fashion.
+  </dd>
+  <dt><dfn lt="event|events">event</dfn></dt>
+  <dd>
+Any data recorded in a <a>ledger</a> that changes the
+<a>state machine</a>.
+  </dd>
   <dt><dfn lt="genesis event|genesis events">genesis event</dfn></dt>
   <dd>
-The first entry in a ledger.
+The first entry in a <a>ledger</a>. This event may be placed into the first
+<a>block</a>, which is typically called the
+<dfn>genesis block</dfn>.
   </dd>
   <dt><dfn lt="state machine|state machines">state machine</dfn></dt>
   <dd>
