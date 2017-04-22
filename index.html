@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flex Ledger 1.0</title>
+    <title>The Web Ledger Protocol 1.0</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
@@ -17,10 +17,10 @@ var respecConfig = {
   specStatus:           "CG-DRAFT",
 
   // the specification's short name, as in http://www.w3.org/TR/short-name/
-  shortName:            "flex-ledger",
+  shortName:            "wlp",
 
   // subtitle for the specification
-  subtitle: "A flexible format and protocol for decentralized ledgers on the Web",
+  subtitle: "A format and protocol for decentralized ledgers on the Web",
 
   // if you wish the publication date to be other than today, set this
   // publishDate:  "2009-08-06",
@@ -31,7 +31,7 @@ var respecConfig = {
   // previousMaturity:  "WD",
 
   // if there a publicly available Editor's Draft, this is the link
-  edDraftURI:           "https://w3c.github.io/flex-ledger/",
+  edDraftURI:           "https://w3c.github.io/web-ledger/",
 
   // if this is a LCWD, uncomment and set the end of its review period
   // lcEnd: "2009-08-05",
@@ -97,7 +97,10 @@ the recording of events, such as financial transactions, transfer of property,
 or time-stamped data that must be shared among coordinating parties. A
 primary goal of this ledger format is flexibility, allowing the
 pluggability of consensus algorithms, data structures for recording
-history, and the type of data that can be stored in the ledger.
+history, and the type of data that can be stored in the ledger. The format and
+protocol described in this document can be used by existing systems
+(e.g. Bitcoin, Ethereum, etc.) to expose their data and functionality in an
+interoperable fashion.
   </p>
 </section>
 
@@ -111,11 +114,11 @@ history, and the type of data that can be stored in the ledger.
       <a href="http://lists.w3.org/Archives/Public/public-blockchain/">public-blockchain@w3.org</a></li>
 
     <li>Specification bugs and issues should be reported in the
-      <a href="https://github.com/w3c/flex-ledger/issues">issue tracker</a>
+      <a href="https://github.com/w3c/web-ledger/issues">issue tracker</a>
       if you do not want to send an e-mail to the public-blockchain mailing
       list.</li>
 
-    <li><a href="https://github.com/w3c/flex-ledger/tree/master/">Source code</a>
+    <li><a href="https://github.com/w3c/web-ledger/tree/master/">Source code</a>
       for the specification can be found on Github.</li>
 
   </ul>
@@ -314,7 +317,7 @@ contain more than these basic entries.
   </p>
 
   <section>
-    <h3>Configuration Event</h3>
+    <h3>Configuration Block</h3>
 
     <p>
 A configuration event specifies which software algorithms should be applied
@@ -327,7 +330,7 @@ following basic layout:
 {
   "@context": "https://w3id.org/flex/v1",
   "id": EVENT_ID,
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": LEDGER_ID,
     "type": "LedgerConfiguration",
@@ -335,7 +338,7 @@ following basic layout:
     "description": "This is an example ledger.",
     "storageMechanism": STORAGE_DATA_STRUCTURE,
     "consensusAlgorithm": CONSENSUS_ALGORITHM,
-  "previousEvent": {
+  "previousBlock": {
     "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
   },
   "signature": SIGNATURE_VALUE
@@ -359,14 +362,14 @@ available in the appendix.
 
     <p>
 A standard configuration entry only differs from a genesis event in that the
-<code>previousEvent</code> value refers to the event before the current event:
+<code>previousBlock</code> value refers to the event before the current event:
     </p>
 
     <pre class="example highlight" title="Example configuration event entry">
 {
   "@context": "https://w3id.org/flex/v1",
   "id": EVENT_ID,
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": LEDGER_ID,
     "type": "LedgerConfiguration",
@@ -374,7 +377,7 @@ A standard configuration entry only differs from a genesis event in that the
     "description": "This is an example ledger.",
     "storageMechanism": STORAGE_DATA_STRUCTURE,
     "consensusAlgorithm": CONSENSUS_ALGORITHM,
-  "previousEvent": {
+  "previousBlock": {
     "id": PREVIOUS_EVENT_ID,
     "hash": PREVIOUS_EVENT_HASH
   },
@@ -394,7 +397,7 @@ is a hash of the previous event in the ledger.
   </section>
 
   <section>
-    <h3>Storage Event</h3>
+    <h3>Storage Block</h3>
 
     <p>
 A storage event stores data in a ledger and has the following general layout:
@@ -404,9 +407,9 @@ A storage event stores data in a ledger and has the following general layout:
 {
   "@context": ["https://w3id.org/flex/v1", MARKET_VERTICAL_CONTEXT],
   "id": EVENT_ID,
-  "type": "LedgerStorageEvent",
+  "type": "LedgerStorageBlock",
   "replacesObject": [ UPDATE_OBJECTS ],
-  "previousEvent": {
+  "previousBlock": {
     "id": PREVIOUS_EVENT_ID
     "hash": PREVIOUS_EVENT_HASH
   },
@@ -429,7 +432,7 @@ the appendix.
   </section>
 
   <section>
-    <h3>Consensus Event</h3>
+    <h3>Consensus Block</h3>
 
     <p class="issue" title="Consensus feature is highly experimental">
 It's currently not specified in a configuration event how often consensus
@@ -449,8 +452,8 @@ of a consensus event is shown below:
 {
   "@context": "https://w3id.org/flex/v1",
   "id": EVENT_ID,
-  "type": "ConsensusEvent",
-  "previousEvent": {
+  "type": "ConsensusBlock",
+  "previousBlock": {
     "id": PREVIOUS_EVENT_ID
     "hash": PREVIOUS_EVENT_HASH
   },
@@ -469,7 +472,7 @@ is located in the appendix.
   </section>
 
   <section>
-    <h3>Checkpoint Event</h3>
+    <h3>Checkpoint Block</h3>
 
     <p>
 A checkpoint event may be used to quickly bootstrap new mirrors for a ledger.
@@ -480,7 +483,7 @@ An example of the basic layout of a checkpoint event is shown below:
 {
   "@context": "https://w3id.org/flex/v1",
   "id": EVENT_ID,
-  "type": "LedgerCheckpointEvent",
+  "type": "LedgerCheckpointBlock",
   "checkpointLog": CHECKPOINT_LOG_URL,
   "checkpointLogHash": CHECKPOINT_LOG_HASH,
   "signature": [ SIGNATURES ]
@@ -1182,7 +1185,7 @@ If the query is successful, a HTTP 200 response is expected:
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": "did:f6ea280f-8011-4502-a29f-464954de3427",
     "type": "LedgerConfiguration",
@@ -1198,7 +1201,7 @@ If the query is successful, a HTTP 200 response is expected:
       "minimumSignaturesRequired":1
     }
   },
-  "previousEvent": {
+  "previousBlock": {
     "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
   },
   "signature": {
@@ -1214,7 +1217,7 @@ If the query is successful, a HTTP 200 response is expected:
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.us.gov/ledgers/emergency-response/1",
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfSignature2016",
@@ -1225,7 +1228,7 @@ If the query is successful, a HTTP 200 response is expected:
     ],
     "minimumSignaturesRequired": 1
   },
-  "nextEvent": "https://example.us.gov/ledgers/emergency-response/2",
+  "nextBlock": "https://example.us.gov/ledgers/emergency-response/2",
   "signature": {
     "type": "LinkedDataSignature2016",
     "created": "2016-09-19T17:19:52Z",
@@ -1242,7 +1245,7 @@ If the query is successful, a HTTP 200 response is expected:
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:23fa73bb201c738d",
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "storageMechanism": "MerkleTree",
   "consensusAlgorithm": {
     "type": "ProofOfWork2016",
@@ -1265,7 +1268,7 @@ If the query is successful, a HTTP 200 response is expected:
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
     "type": "ProofOfBallot2015",
@@ -1290,8 +1293,8 @@ If the query is successful, a HTTP 200 response is expected:
     </pre>
 
     <p class="issue">
-The use of <code>nextEvent</code> is unlikely here, it is more
-likely to be <code>prevEvent</code> and potentially include
+The use of <code>nextBlock</code> is unlikely here, it is more
+likely to be <code>prevBlock</code> and potentially include
 a hash of that event depending on configuration.
     </p>
 
@@ -1308,8 +1311,8 @@ a hash of that event depending on configuration.
 {
   "@context": ["https://w3id.org/flex/v1", "https://w3id.org/dhs/v1"],
   "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/2",
-  "type": "LedgerStorageEvent",
-  "replacesObject": [{
+  "type": "LedgerStorageBlock",
+  "setObject": [{
     "id": "https://hhs.gov/vaccinations/6080026",
     "type": ["Credential", "VaccinationCredential"],
     "claim": {
@@ -1321,7 +1324,7 @@ a hash of that event depending on configuration.
       }
     }
   }],
-  "previousEvent": {
+  "previousBlock": {
     "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
     "hash": "urn:sha256:f04524659baa027ea49e7d0635bc6b1869d3e7d811f6bfefeb3aae1adcae0362"
   },
@@ -1341,8 +1344,8 @@ a hash of that event depending on configuration.
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
-  "type": "LedgerStorageEvent",
-  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "type": "LedgerStorageBlock",
+  "previousBlock": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "replacesObject": [{
     "id": "https://vhda.va.us.gov/properties/3829344",
     "propertyAddress": {
@@ -1372,8 +1375,8 @@ a hash of that event depending on configuration.
     "https://w3id.org/dhs/credentials/v1",
   ],
   "id": "https://example.us.gov/ledgers/emergency-response/2",
-  "type": "LedgerStorageEvent",
-  "previousEvent": "https://example.us.gov/ledgers/emergency-response/1",
+  "type": "LedgerStorageBlock",
+  "previousBlock": "https://example.us.gov/ledgers/emergency-response/1",
   "replacesObject": [{
     "id": "https://example.us.gov/credentials/234234542",
     "type": ["Credential", "EmergencyResponseCredential"]
@@ -1400,8 +1403,8 @@ a hash of that event depending on configuration.
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:83ba663df28372718",
-  "type": "LedgerStorageEvent",
-  "previousEvent": "bytecoin:block:271863df2883ba637",
+  "type": "LedgerStorageBlock",
+  "previousBlock": "bytecoin:block:271863df2883ba637",
   "addsObject": [{
     "transaction": [{
       "https://w3id.org/bytecoin/v1"
@@ -1431,8 +1434,8 @@ a hash of that event depending on configuration.
     "https://w3id.org/real-estate/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
-  "type": "LedgerStorageEvent",
-  "previousEvent": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
+  "type": "LedgerStorageBlock",
+  "previousBlock": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "addsObject": [{
     "id": "https://example-consortium.com/private-ledgers/loans/real-estate/transactions/238947234",
     "transaction": {
@@ -1462,8 +1465,8 @@ a hash of that event depending on configuration.
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/100",
-  "type": "ConsensusEvent",
-  "previousEvent": {
+  "type": "ConsensusBlock",
+  "previousBlock": {
     "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/99",
     "hash": "urn:sha256:0877a494ce1705117f917a3af3fc48190b1fdbca04fdba8e995fd6c15fb2fe71"
   },
@@ -1510,7 +1513,7 @@ to a compressed/checksummed file?
 {
   "@context": "https://w3id.org/flex/v1",
   "id": "https://example.org/ledgers/example/6372463",
-  "type": "LedgerCheckpointEvent",
+  "type": "LedgerCheckpointBlock",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
   "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
@@ -1537,8 +1540,8 @@ to a compressed/checksummed file?
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example.org/ledgers/example/5",
-  "type": "LedgerStorageEvent",
-  "previousEvent": "https://example.org/ledgers/example/4",
+  "type": "LedgerStorageBlock",
+  "previousBlock": "https://example.org/ledgers/example/4",
   "addsObject": [{
     "transaction": [{
       "source": "https://example.org/accounts/jane/7",
