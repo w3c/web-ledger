@@ -397,7 +397,7 @@ following basic layout:
 
     <pre class="example highlight" title="Example genesis block">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": "https://w3id.org/web-ledger/v1",
   "id": BLOCK_ID,
   "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
@@ -418,7 +418,7 @@ following basic layout:
 In the example above, <code>LEDGER_ID</code> is used to uniquely identify the
 ledger (e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427</code>).
 <code>BLOCK_ID</code> is used to uniquely identify the <a>block</a> in the ledger
-(e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>.
+(e.g. <code>did:f6ea280f-8011-4502-a29f-464954de3427/blocks/1</code>.
 <code>STORAGE_DATA_STRUCTURE</code> is used to identify the storage mechanism
 that is used in the ledger (e.g. <code>SequentialList</code>) so that
 serializing and
@@ -437,7 +437,7 @@ current block:
 
     <pre class="example highlight" title="Example configuration block update">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": "https://w3id.org/web-ledger/v1",
   "id": BLOCK_ID,
   "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
@@ -458,7 +458,7 @@ current block:
     <p>
 The  <code>PREVIOUS_BLOCK_ID</code> is the identifier of the previous
 block in the ledger (e.g.
-<code>did:f6ea280f-8011-4502-a29f-464954de3427/events/1</code>) and the
+<code>did:f6ea280f-8011-4502-a29f-464954de3427/blocks/1</code>) and the
 <code>PREVIOUS_BLOCK_HASH</code> value (e.g.
 <code>urn:sha256:abd465d34f7a3f0f7d849550eb9fc32c17d12881da6b524da0a96e12cc984538</code>
 is a hash of the previous block in the ledger.
@@ -470,18 +470,18 @@ is a hash of the previous block in the ledger.
     <h3>Storage Block</h3>
 
     <p>
-A storage event stores data in a ledger and has the following general layout:
+A storage block stores data in a ledger and has the following general layout:
     </p>
 
     <pre class="example highlight" title="Example storage event entry">
 {
-  "@context": ["https://w3id.org/flex/v1", MARKET_VERTICAL_CONTEXT],
-  "id": EVENT_ID,
+  "@context": ["https://w3id.org/web-ledger/v1", MARKET_VERTICAL_CONTEXT],
+  "id": BLOCK_ID,
   "type": "LedgerStorageBlock",
-  "replacesObject": [ UPDATE_OBJECTS ],
+  "setObject": [ OBJECTS ],
   "previousBlock": {
-    "id": PREVIOUS_EVENT_ID
-    "hash": PREVIOUS_EVENT_HASH
+    "id": PREVIOUS_BLOCK_ID
+    "hash": PREVIOUS_BLOCK_HASH
   },
   "signature": SIGNATURE_VALUE
 }
@@ -490,12 +490,12 @@ A storage event stores data in a ledger and has the following general layout:
     <p>
 When storing data in the ledger, one may use a
 <code>MARKET_VERTICAL_CONTEXT</code> to add semantics to the objects stored in
-<code>UPDATE_OBJECTS</code>
+<code>OBJECTS</code>
 (e.g. <code>https://w3id.org/vaccinations/v1</code>).
-<code>UPDATE_OBJECTS</code> are one or more JSON objects that can be stored in
+<code>OBJECTS</code> are one or more JSON objects that can be stored in
 the ledger. It is expected that each object has a unique identifier to
 enable searching based on that identifier. A detailed
-<a href="example-storage-event">example of a storage event</a> is included in
+<a href="example-storage-block">example of a storage event</a> is included in
 the appendix.
     </p>
 
@@ -520,12 +520,12 @@ of a consensus event is shown below:
 
     <pre class="example highlight" title="Example storage event entry">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "id": EVENT_ID,
+  "@context": "https://w3id.org/web-ledger/v1",
+  "id": BLOCK_ID,
   "type": "ConsensusBlock",
   "previousBlock": {
-    "id": PREVIOUS_EVENT_ID
-    "hash": PREVIOUS_EVENT_HASH
+    "id": PREVIOUS_BLOCK_ID
+    "hash": PREVIOUS_BLOCK_HASH
   },
   "signature": [ SIGNATURES ]
 }
@@ -535,7 +535,7 @@ of a consensus event is shown below:
 A consensus event has a relatively simple definition. It consists of a
 number of <code>SIGNATURES</code> from notaries as determined by the previous
 configuration event. A more complete
-<a href="#example-consensus-event">example of a consensus event</a>
+<a href="#example-consensus-block">example of a consensus event</a>
 is located in the appendix.
     </p>
 
@@ -551,8 +551,8 @@ An example of the basic layout of a checkpoint event is shown below:
 
     <pre class="example highlight" title="Example checkpoint event">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "id": EVENT_ID,
+  "@context": "https://w3id.org/web-ledger/v1",
+  "id": BLOCK_ID,
   "type": "LedgerCheckpointBlock",
   "checkpointLog": CHECKPOINT_LOG_URL,
   "checkpointLogHash": CHECKPOINT_LOG_HASH,
@@ -568,7 +568,7 @@ A checkpoint event declares a <code>CHECKPOINT_LOG_URL</code>
 All notaries typically download the checkpoint log and
 check it before providing signatures noting that the checkpoint log is valid.
 There is a detailed
-<a href="#example-checkpoint-event">example of a checkpoint event</a>
+<a href="#example-checkpoint-block">example of a checkpoint event</a>
 in the appendix.
     </p>
 
@@ -625,12 +625,12 @@ a work in progress.
       <tr>
         <td>ledgerAppendService</td>
         <td>POST /ledgers/{ledger}</td>
-        <td>Add event to ledger.</td>
+        <td>Add block to ledger.</td>
       </tr>
       <tr>
         <td>ledgerIndexService</td>
-        <td>GET /ledgers/{ledger}/events/{eventId}</td>
-        <td>Get event from ledger.</td>
+        <td>GET /ledgers/{ledger}/blocks/{blockId}</td>
+        <td>Get block from ledger.</td>
       </tr>
       <tr>
         <td>ledgerQueryService</td>
@@ -658,7 +658,7 @@ top-most HTML web page (e.g. at <code>https://example.com/</code>):
     &lt;script src="script.js">&lt;/script>
     &lt;script type="application/ld+json">
 {
-  "@context": "https://w3id.org/web-services/v1",
+  "@context": "https://w3id.org/discovery/v1",
   "id": "https://example.com/",
   "name": "Example Website",
   "ledgerCreateService": "https://example.com/ledgers",
@@ -680,7 +680,7 @@ In the following example a JSON-compatible service description is provided
 
     <pre class="example highlight" title="Example of a JSON-based service description">
 {
-  "@context": "https://w3id.org/web-services/v1",
+  "@context": "https://w3id.org/discovery/v1",
   "id": "https://example.com/",
   "name": "Example Website",
   "ledgerCreateService": "https://example.com/ledgers",
@@ -695,7 +695,7 @@ In the following example a JSON-compatible service description is provided
 
     <p>
 A ledger is created by performing an HTTP POST of a
-<a href="#configuration-event">LedgerConfigurationEvent</a>
+<a href="#configuration-block">LedgerConfigurationEvent</a>
 to the <code>ledgerCreateService</code>. The following HTTP status codes
 are defined for this service:
     </p>
@@ -737,8 +737,8 @@ Accept: application/ld+json, application/json, text/plain, */*
 Accept-Encoding: gzip, deflate
 
 {
-  "@context": "https://w3id.org/flex/v1",
-  "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef/events/1",
+  "@context": "https://w3id.org/web-ledger/v1",
+  "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef/blocks/1",
   "type": "LedgerConfigurationEvent",
   "ledgerConfig": {
     "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef",
@@ -856,7 +856,7 @@ Transfer-Encoding: chunked
       "ledgerMetadataService": "https://example.com/ledgers/example",
       "ledgerStateService": "https://example.com/ledgers/example/state",
       "ledgerAppendService": "https://example.com/ledgers/example",
-      "ledgerIndexService": "https://example.com/ledgers/example/events",
+      "ledgerIndexService": "https://example.com/ledgers/example/blocks",
       "ledgerConfig": {
         "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30",
         "type": "LedgerConfiguration",
@@ -872,12 +872,12 @@ Transfer-Encoding: chunked
           "minimumSignaturesRequired":1
         }
       },
-      "latestEvent": {
-        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+      "latestBlock": {
+        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/1",
         "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
       },
-      "nextEvent": {
-        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2"
+      "nextBlock": {
+        "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2"
       }
     },
     {
@@ -958,7 +958,7 @@ Transfer-Encoding: chunked
   "ledgerMetadataService": "https://example.com/ledgers/example",
   "ledgerStateService": "https://example.com/ledgers/example/state",
   "ledgerAppendService": "https://example.com/ledgers/example",
-  "ledgerIndexService": "https://example.com/ledgers/example/events",
+  "ledgerIndexService": "https://example.com/ledgers/example/blocks",
   "ledgerConfig": {
     "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30",
     "type": "LedgerConfiguration",
@@ -974,12 +974,12 @@ Transfer-Encoding: chunked
       "minimumSignaturesRequired":1
     }
   },
-  "latestEvent": {
-    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+  "latestBlock": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/1",
     "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
   },
-  "nextEvent": {
-    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2"
+  "nextBlock": {
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2"
   }
 }
     </pre>
@@ -991,7 +991,7 @@ Transfer-Encoding: chunked
 
     <p>
 Appending to a ledger can be achieved by performing an HTTP POST of a
-<a href="#storage-event">LedgerStorageEvent</a>
+<a href="#storage-block">LedgerStorageEvent</a>
 to the <code>ledgerAppendService</code>. The following HTTP status codes
 are defined for this service:
     </p>
@@ -1005,19 +1005,19 @@ are defined for this service:
         <tr>
           <td>201</td>
           <td>
-The ledger event was sucessfully appended.
+The ledger block was sucessfully appended.
           </td>
         </tr>
         <tr>
           <td>400</td>
           <td>
-The ledger event failed to be appended.
+The ledger block failed to be appended.
           </td>
         </tr>
         <tr>
           <td>409</td>
           <td>
-The ledger event with the given identifier already exists.
+The ledger block with the given identifier already exists.
           </td>
         </tr>
       </tbody>
@@ -1038,10 +1038,10 @@ Accept-Encoding: gzip, deflate
 Accept-Language: en-US,en;q=0.8
 
 {
-  "@context": ["https://w3id.org/flex/v1", "https://w3id.org/fema/v1"],
-  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2",
+  "@context": ["https://w3id.org/web-ledger/v1", "https://w3id.org/fema/v1"],
+  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2",
   "type": "LedgerStorageEvent",
-  "replacesObject": [{
+  "setObject": [{
     "id": "https://fema.gov/credentials/9754457",
     "type": ["Credential", "EmergencyResponderCredential"],
     "claim": {
@@ -1053,7 +1053,7 @@ Accept-Language: en-US,en;q=0.8
     }
   }],
   "previousEvent": {
-    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/1",
     "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
   },
   "signature": {
@@ -1071,7 +1071,7 @@ If the storage attempt is successful, a HTTP 200 response is expected:
 
     <pre class="example highlight" title="">
 HTTP/1.1 201 Created
-Location: https://example.com/ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2
+Location: https://example.com/ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2
 Cache-Control: no-cache, no-store, must-revalidate
 Pragma: no-cache
 Expires: 0
@@ -1087,7 +1087,7 @@ Transfer-Encoding: chunked
 
     <p>
 A ledger read for an event is achieved by performing an HTTP GET on
-a ledger event identifier. The list of ledger events is available by performing
+a ledger block identifier. The list of ledger blocks is available by performing
 an HTTP GET on the <code>ledgerIndexService</code>. The following HTTP status
 codes are defined for this service:
     </p>
@@ -1101,24 +1101,24 @@ codes are defined for this service:
         <tr>
           <td>200</td>
           <td>
-Retrieval of the ledger event was successful.
+Retrieval of the ledger block was successful.
           </td>
         </tr>
         <tr>
           <td>404</td>
           <td>
-The ledger event was not found at the given URL.
+The ledger block was not found at the given URL.
           </td>
         </tr>
       </tbody>
     </table>
 
     <p>
-An example retrieval of a ledger event is shown below:
+An example retrieval of a ledger block is shown below:
     </p>
 
     <pre class="example highlight" title="">
-GET /ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2 HTTP/1.1
+GET /ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2 HTTP/1.1
 Host: example.com
 Connection: keep-alive
 Accept: application/ld+json, application/json, text/plain, */*
@@ -1127,7 +1127,7 @@ Accept-Language: en-US,en;q=0.8
     </pre>
 
     <p>
-If the ledger event retrieval is successful, a HTTP 200 response is expected:
+If the ledger block retrieval is successful, a HTTP 200 response is expected:
     </p>
 
     <pre class="example highlight" title="">
@@ -1145,10 +1145,10 @@ Connection: keep-alive
 Transfer-Encoding: chunked
 
 {
-  "@context": ["https://w3id.org/flex/v1", "https://w3id.org/fema/v1"],
-  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/2",
+  "@context": ["https://w3id.org/web-ledger/v1", "https://w3id.org/fema/v1"],
+  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2",
   "type": "LedgerStorageEvent",
-  "replacesObject": [{
+  "setObject": [{
     "id": "https://fema.gov/credentials/9754457",
     "type": ["Credential", "EmergencyResponderCredential"],
     "claim": {
@@ -1160,7 +1160,7 @@ Transfer-Encoding: chunked
     }
   }],
   "previousEvent": {
-    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/events/1",
+    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/1",
     "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
   },
   "signature": {
@@ -1251,10 +1251,10 @@ If the query is successful, a HTTP 200 response is expected:
   <section id="configuring">
     <h2>Configuring the Ledger</h2>
 
-    <pre id="example-genesis-event" class="example highlight" title="Example genesis entry for a simple signature-based ledger">
+    <pre id="example-genesis-block" class="example highlight" title="Example genesis entry for a simple signature-based ledger">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
+  "@context": "https://w3id.org/web-ledger/v1",
+  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/blocks/1",
   "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": "did:f6ea280f-8011-4502-a29f-464954de3427",
@@ -1285,7 +1285,7 @@ If the query is successful, a HTTP 200 response is expected:
 
     <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": "https://w3id.org/web-ledger/v1",
   "id": "https://example.us.gov/ledgers/emergency-response/1",
   "type": "LedgerConfigurationBlock",
   "storageMechanism": "SequentialList",
@@ -1311,7 +1311,7 @@ If the query is successful, a HTTP 200 response is expected:
     <pre class="example highlight" title="Example genesis entry for a cryptocurrency ledger">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:23fa73bb201c738d",
@@ -1334,7 +1334,7 @@ If the query is successful, a HTTP 200 response is expected:
     <pre class="example highlight" title="Example genesis entry for a consortium-based debt obligation ledger">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
@@ -1377,10 +1377,10 @@ a hash of that event depending on configuration.
 
     </p>
 
-    <pre id="example-storage-event" class="example highlight" title="Example storage event for vaccination">
+    <pre id="example-storage-block" class="example highlight" title="Example storage event for vaccination">
 {
-  "@context": ["https://w3id.org/flex/v1", "https://w3id.org/dhs/v1"],
-  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/2",
+  "@context": ["https://w3id.org/web-ledger/v1", "https://w3id.org/dhs/v1"],
+  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/blocks/2",
   "type": "LedgerStorageBlock",
   "setObject": [{
     "id": "https://hhs.gov/vaccinations/6080026",
@@ -1395,7 +1395,7 @@ a hash of that event depending on configuration.
     }
   }],
   "previousBlock": {
-    "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/1",
+    "id": "did:f6ea280f-8011-4502-a29f-464954de3427/blocks/1",
     "hash": "urn:sha256:f04524659baa027ea49e7d0635bc6b1869d3e7d811f6bfefeb3aae1adcae0362"
   },
   "signature": {
@@ -1410,13 +1410,13 @@ a hash of that event depending on configuration.
     <pre class="example highlight" title="Example storage event for a real-estate transaction.">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/housing/v1",
   ],
   "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
   "type": "LedgerStorageBlock",
   "previousBlock": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
-  "replacesObject": [{
+  "setObject": [{
     "id": "https://vhda.va.us.gov/properties/3829344",
     "propertyAddress": {
       "street": "263 Main Street",
@@ -1441,13 +1441,13 @@ a hash of that event depending on configuration.
     <pre class="example highlight" title="Example storage event for a verifiable claim transaction">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/dhs/credentials/v1",
   ],
   "id": "https://example.us.gov/ledgers/emergency-response/2",
   "type": "LedgerStorageBlock",
   "previousBlock": "https://example.us.gov/ledgers/emergency-response/1",
-  "replacesObject": [{
+  "setObject": [{
     "id": "https://example.us.gov/credentials/234234542",
     "type": ["Credential", "EmergencyResponseCredential"]
     "claim": {
@@ -1469,7 +1469,7 @@ a hash of that event depending on configuration.
     <pre class="example highlight" title="Example storage event for a crytocurrency state machine">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "bytecoin:block:83ba663df28372718",
@@ -1500,7 +1500,7 @@ a hash of that event depending on configuration.
     <pre class="example highlight" title="Example storage event for a legal entity identifier transaction for the financial industry">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/real-estate/v1"
   ],
   "id": "https://example-consortium.com/private-ledgers/loans/real-estate/2",
@@ -1531,13 +1531,13 @@ a hash of that event depending on configuration.
   <section id="consensus">
     <h2>Recording Consensus</h2>
 
-    <pre id="example-consensus-event" class="example highlight" title="Example consensus event entry">
+    <pre id="example-consensus-block" class="example highlight" title="Example consensus event entry">
 {
-  "@context": "https://w3id.org/flex/v1",
-  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/100",
+  "@context": "https://w3id.org/web-ledger/v1",
+  "id": "did:f6ea280f-8011-4502-a29f-464954de3427/blocks/100",
   "type": "ConsensusBlock",
   "previousBlock": {
-    "id": "did:f6ea280f-8011-4502-a29f-464954de3427/events/99",
+    "id": "did:f6ea280f-8011-4502-a29f-464954de3427/blocks/99",
     "hash": "urn:sha256:0877a494ce1705117f917a3af3fc48190b1fdbca04fdba8e995fd6c15fb2fe71"
   },
   "signature": [{
@@ -1579,9 +1579,9 @@ are that useful at all? Seems to be the only use is a link
 to a compressed/checksummed file?
     </p>
 
-    <pre id="example-checkpoint-event" class="example highlight" title="Example checkpoint event used to serialize">
+    <pre id="example-checkpoint-block" class="example highlight" title="Example checkpoint event used to serialize">
 {
-  "@context": "https://w3id.org/flex/v1",
+  "@context": "https://w3id.org/web-ledger/v1",
   "id": "https://example.org/ledgers/example/6372463",
   "type": "LedgerCheckpointBlock",
   "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
@@ -1606,7 +1606,7 @@ to a compressed/checksummed file?
     <pre class="example highlight" title="Example of a transaction linking to a transaction in another ledger">
 {
   "@context": [
-    "https://w3id.org/flex/v1",
+    "https://w3id.org/web-ledger/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
   "id": "https://example.org/ledgers/example/5",
