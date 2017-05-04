@@ -269,8 +269,8 @@ used throughout this document.
 model used for the technology.
       </li>
       <li>
-<a href="#http-api">Section 4: The HTTP API</a> describes the mechanism that
-can be used to create, append, and query the ledger.
+<a href="#http-api">Section 4: The Ledger Agent HTTP API</a> describes the
+mechanism that can be used to create, append, and query the ledger.
       </li>
       <li>
 <a href="#syntax">Section 5: Syntax</a> describes the suggested
@@ -320,7 +320,7 @@ how new tunnels should be excavated.
   <dt><dfn lt="decentralized ledger|decentralized ledgers">decentralized ledger</dfn></dt>
   <dd>
 A <a>cryptographic ledger</a> that uses a <a>consensus algorithm</a> that
-enables a network of ledger nodes to come to consensus in a
+enables a network of <a>ledger nodes</a> to come to consensus in a
 decentralized yet deterministic fashion.
   </dd>
   <dt><dfn lt="event|events">event</dfn></dt>
@@ -333,6 +333,18 @@ Any data recorded in a <a>ledger</a> that changes the
 The first entry in a <a>ledger</a>. This event may be placed into the first
 <a>block</a>, which is typically called the
 <dfn>genesis block</dfn>.
+  </dd>
+  <dt><dfn lt="ledger agent|ledger agents">ledger agent</dfn></dt>
+  <dd>
+A software program that instructs a <a>ledger node</a> to perform specific
+actions such as reading or writing data.
+  </dd>
+  <dt><dfn lt="ledger node|ledger nodes">ledger node</dfn></dt>
+  <dd>
+A software program that reads and writes from particular instance of
+a <a>ledger</a> by executing algorithms according to the rules of the ledger.
+The ledger node may be instructed to perform actions on the ledger by a
+<a>ledger agent</a>.
   </dd>
   <dt><dfn lt="state machine|state machines">state machine</dfn></dt>
   <dd>
@@ -562,7 +574,7 @@ An example of the basic layout of a checkpoint event is shown below:
 
     <p>
 A checkpoint event declares a <code>CHECKPOINT_LOG_URL</code>
-(e.g. <code>https://example.org/ledgers/example/checkpoints/132</code>) and a
+(e.g. <code>https://example.org/ledger-agents/example/checkpoints/132</code>) and a
 <code>CHECKPOINT_LOG_HASH</code>
 (e.g. <code>urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23</code>).
 All notaries typically download the checkpoint log and
@@ -584,16 +596,16 @@ shouldn't be a separate event.
 </section>
 
 <section>
-  <h2>HTTP API</h2>
+  <h2>Ledger Agent HTTP API</h2>
 
   <p>
 The previous section defined the data model and messages that can be used
-to create and operate a ledger. This section provides the HTTP API endpoints
-that may be used in conjunction with the messages in the previous section to
-create and operate a ledger.
+to create and operate a ledger. This section provides the Ledger Agent
+HTTP API endpoints that may be used in conjunction with the messages in the
+previous section to create and operate a ledger.
   </p>
 
-  <p class="issue" title="The HTTP API is a Work in Progress">
+  <p class="issue" title="The Ledger Agent HTTP API is a Work in Progress">
 Note that the API proposed here only has one implementation and, while designed
 to be flexible, does not have enough deployment experience to be used in
 production systems that require strong interoperability guarantees. This is
@@ -608,33 +620,33 @@ a work in progress.
     </thead>
     <tbody>
       <tr>
-        <td>ledgerCreateService</td>
-        <td>POST /ledgers</td>
-        <td>Create a ledger.</td>
+        <td>ledgerAgentCreateService</td>
+        <td>POST /ledger-agents</td>
+        <td>Create a ledger agent.</td>
       </tr>
       <tr>
-        <td>ledgerListService</td>
-        <td>GET /ledgers</td>
-        <td>Get all ledgers.</td>
+        <td>ledgerAgentListService</td>
+        <td>GET /ledger-agents</td>
+        <td>Get all ledger agents.</td>
       </tr>
       <tr>
-        <td>ledgerMetadataService</td>
-        <td>GET /ledgers/{ledger}</td>
-        <td>Get ledger metadata.</td>
+        <td>ledgerAgentStatusService</td>
+        <td>GET /ledger-agents/{agent}</td>
+        <td>Get the current status of the ledger agent.</td>
       </tr>
       <tr>
-        <td>ledgerAppendService</td>
-        <td>POST /ledgers/{ledger}</td>
-        <td>Add block to ledger.</td>
+        <td>ledgerEventService</td>
+        <td>POST /ledger-agents/{agent}/events</td>
+        <td>Request the addition of an event to ledger.</td>
       </tr>
       <tr>
-        <td>ledgerIndexService</td>
-        <td>GET /ledgers/{ledger}/blocks/{blockId}</td>
-        <td>Get block from ledger.</td>
+        <td>ledgerBlockService</td>
+        <td>GET /ledger-agents/{agent}/blocks</td>
+        <td>Get a specific block from the ledger.</td>
       </tr>
       <tr>
         <td>ledgerQueryService</td>
-        <td>GET /ledgers/{ledger}/state</td>
+        <td>GET /ledger-agents/{agent}/query</td>
         <td>Query the current state of the ledger.</td>
       </tr>
     </tbody>
@@ -661,8 +673,8 @@ top-most HTML web page (e.g. at <code>https://example.com/</code>):
   "@context": "https://w3id.org/discovery/v1",
   "id": "https://example.com/",
   "name": "Example Website",
-  "ledgerCreateService": "https://example.com/ledgers",
-  "ledgerListService": "https://example.com/ledgers"
+  "ledgerAgentCreateService": "https://example.com/ledger-agents",
+  "ledgerAgentListService": "https://example.com/ledger-agents"
 }
     &lt;/script>
   &lt;/head>
@@ -683,20 +695,20 @@ In the following example a JSON-compatible service description is provided
   "@context": "https://w3id.org/discovery/v1",
   "id": "https://example.com/",
   "name": "Example Website",
-  "ledgerCreateService": "https://example.com/ledgers",
-  "ledgerListService": "https://example.com/ledgers"
+  "ledgerAgentCreateService": "https://example.com/ledger-agents",
+  "ledgerAgentListService": "https://example.com/ledger-agents"
 }
     </pre>
 
   </section>
 
   <section>
-    <h3>Create Service</h3>
+    <h3>Agent Create Service</h3>
 
     <p>
 A ledger is created by performing an HTTP POST of a
-<a href="#configuration-block">LedgerConfigurationEvent</a>
-to the <code>ledgerCreateService</code>. The following HTTP status codes
+<a href="#configuration-block">LedgerConfigurationBlock</a>
+to the <code>ledgerAgentCreateService</code>. The following HTTP status codes
 are defined for this service:
     </p>
 
@@ -729,7 +741,7 @@ An example exchange of a ledger creation is shown below:
     </p>
 
     <pre class="example highlight" title="Ledger creation request">
-POST /ledgers HTTP/1.1
+POST /ledger-agents HTTP/1.1
 Host: example.com
 Content-Type: application/ld+json
 Content-Length: 1062
@@ -739,7 +751,7 @@ Accept-Encoding: gzip, deflate
 {
   "@context": "https://w3id.org/web-ledger/v1",
   "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef/blocks/1",
-  "type": "LedgerConfigurationEvent",
+  "type": "LedgerConfigurationBlock",
   "ledgerConfig": {
     "id": "did:1628bf39-c8f9-453f-93d7-0fbdebb3dfef",
     "type": "LedgerConfiguration",
@@ -755,11 +767,11 @@ Accept-Encoding: gzip, deflate
       "minimumSignaturesRequired":1
     }
   },
-  "previousEvent": {
+  "previousBlock": {
     "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
   },
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-14T18:35:33Z",
     "creator": "http://blue.example.com/keys/234",
     "signatureValue": "HvfvRQ57EO...J0Q=="
@@ -774,7 +786,7 @@ expected in return:
 
     <pre class="example highlight" title="Successful ledger creation response">
 HTTP/1.1 201 Created
-Location: http://dhs2016ledger.digitalbazaar.com/ledgers/example
+Location: http://ledger.example.com/ledger-agents/example
 Cache-Control: no-cache, no-store, must-revalidate
 Pragma: no-cache
 Expires: 0
@@ -786,7 +798,7 @@ Transfer-Encoding: chunked
   </section>
 
   <section>
-    <h3>List Service</h3>
+    <h3>Agent List Service</h3>
 
     <p>
 One can get a list of active ledgers on a server by performing an HTTP GET on
@@ -821,7 +833,7 @@ below:
     </p>
 
     <pre class="example highlight" title="">
-GET /ledgers HTTP/1.1
+GET /ledger-agents HTTP/1.1
 Host: example.com
 Connection: keep-alive
 Accept: application/ld+json, application/json, text/plain, */*
@@ -849,14 +861,14 @@ Connection: keep-alive
 Transfer-Encoding: chunked
 
 {
-  "ledger": [
+  "ledgerAgents": [
     {
-      "id": "https://example.com/ledgers/example",
+      "id": "https://example.com/ledger-agents/example",
       "name": "example",
-      "ledgerMetadataService": "https://example.com/ledgers/example",
-      "ledgerStateService": "https://example.com/ledgers/example/state",
-      "ledgerAppendService": "https://example.com/ledgers/example",
-      "ledgerIndexService": "https://example.com/ledgers/example/blocks",
+      "ledgerAgentStatusService": "https://example.com/ledger-agents/example",
+      "ledgerQueryService": "https://example.com/ledger-agents/example/query",
+      "ledgerEventService": "https://example.com/ledger-agents/example/events",
+      "ledgerBlockService": "https://example.com/ledger-agents/example/blocks",
       "ledgerConfig": {
         "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30",
         "type": "LedgerConfiguration",
@@ -890,11 +902,11 @@ Transfer-Encoding: chunked
   </section>
 
   <section>
-    <h3>Metadata Service</h3>
+    <h3>Agent Status Service</h3>
 
     <p>
-The metadata related to a ledger may be fetched by performing an HTTP GET
-on the <code>ledgerMetadataService</code>. The following HTTP status codes
+The metadata related to a ledger agent may be fetched by performing an HTTP GET
+on the <code>ledgerAgentStatusService</code>. The following HTTP status codes
 are defined for this service:
     </p>
 
@@ -907,13 +919,13 @@ are defined for this service:
         <tr>
           <td>200</td>
           <td>
-The ledger metadata was found and will be returned in the body of the response.
+The ledger agent status was found and will be returned in the body of the response.
           </td>
         </tr>
         <tr>
           <td>404</td>
           <td>
-The ledger metadata was not found at the given URL.
+The ledger agent status was not found at the given URL.
           </td>
         </tr>
       </tbody>
@@ -925,7 +937,7 @@ An example exchange of fetching metadata for a ledger is shown below:
 
 
     <pre class="example highlight" title="">
-GET /ledgers/example HTTP/1.1
+GET /ledger-agents/example HTTP/1.1
 Host: example.com
 Connection: keep-alive
 Accept: application/ld+json, application/json, text/plain, */*
@@ -953,12 +965,12 @@ Connection: keep-alive
 Transfer-Encoding: chunked
 
 {
-  "id": "https://example.com/ledgers/example",
+  "id": "https://example.com/ledger-agents/example",
   "name": "example",
-  "ledgerMetadataService": "https://example.com/ledgers/example",
-  "ledgerStateService": "https://example.com/ledgers/example/state",
-  "ledgerAppendService": "https://example.com/ledgers/example",
-  "ledgerIndexService": "https://example.com/ledgers/example/blocks",
+  "ledgerAgentStatusService": "https://example.com/ledger-agents/example",
+  "ledgerQueryService": "https://example.com/ledger-agents/example/query",
+  "ledgerEventService": "https://example.com/ledger-agents/example/events",
+  "ledgerBlockService": "https://example.com/ledger-agents/example/blocks",
   "ledgerConfig": {
     "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30",
     "type": "LedgerConfiguration",
@@ -987,11 +999,11 @@ Transfer-Encoding: chunked
   </section>
 
   <section>
-    <h3>Append Service</h3>
+    <h3>Ledger Append Service</h3>
 
     <p>
 Appending to a ledger can be achieved by performing an HTTP POST of a
-<a href="#storage-block">LedgerStorageEvent</a>
+<a href="#storage-block">LedgerStorageBlock</a>
 to the <code>ledgerAppendService</code>. The following HTTP status codes
 are defined for this service:
     </p>
@@ -1028,7 +1040,7 @@ An example of an event being appended to a ledger is shown below:
     </p>
 
     <pre class="example highlight" title="">
-POST /ledgers/example HTTP/1.1
+POST /ledger-agents/example/events HTTP/1.1
 Host: example.com
 Connection: keep-alive
 Content-Length: 1054
@@ -1039,7 +1051,6 @@ Accept-Language: en-US,en;q=0.8
 
 {
   "@context": ["https://w3id.org/web-ledger/v1", "https://w3id.org/fema/v1"],
-  "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2",
   "type": "LedgerStorageEvent",
   "setObject": [{
     "id": "https://fema.gov/credentials/9754457",
@@ -1052,12 +1063,8 @@ Accept-Language: en-US,en;q=0.8
       }
     }
   }],
-  "previousEvent": {
-    "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/1",
-    "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
-  },
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-14T19:47:15Z",
     "creator": "https://example.com/keys/fema-key-1",
     "signatureValue": "JoS27wqaTX...s0mpBFMgXIMw=="
@@ -1071,7 +1078,7 @@ If the storage attempt is successful, a HTTP 200 response is expected:
 
     <pre class="example highlight" title="">
 HTTP/1.1 201 Created
-Location: https://example.com/ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2
+Location: https://example.com/ledger-agents/example/events?id=d1328828-3d44-4e14-9c3a-263af54ed032
 Cache-Control: no-cache, no-store, must-revalidate
 Pragma: no-cache
 Expires: 0
@@ -1083,12 +1090,12 @@ Transfer-Encoding: chunked
   </section>
 
   <section>
-    <h3>Read Service</h3>
+    <h3>Ledger Block Service</h3>
 
     <p>
-A ledger read for an event is achieved by performing an HTTP GET on
+A ledger read for an block is achieved by performing an HTTP GET on
 a ledger block identifier. The list of ledger blocks is available by performing
-an HTTP GET on the <code>ledgerIndexService</code>. The following HTTP status
+an HTTP GET on the <code>ledgerBlockService</code>. The following HTTP status
 codes are defined for this service:
     </p>
 
@@ -1118,7 +1125,7 @@ An example retrieval of a ledger block is shown below:
     </p>
 
     <pre class="example highlight" title="">
-GET /ledgers/example/did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2 HTTP/1.1
+GET /ledger-agents/example/blocks?id=did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2 HTTP/1.1
 Host: example.com
 Connection: keep-alive
 Accept: application/ld+json, application/json, text/plain, */*
@@ -1147,7 +1154,7 @@ Transfer-Encoding: chunked
 {
   "@context": ["https://w3id.org/web-ledger/v1", "https://w3id.org/fema/v1"],
   "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/2",
-  "type": "LedgerStorageEvent",
+  "type": "LedgerStorageBlock",
   "setObject": [{
     "id": "https://fema.gov/credentials/9754457",
     "type": ["Credential", "EmergencyResponderCredential"],
@@ -1159,12 +1166,12 @@ Transfer-Encoding: chunked
       }
     }
   }],
-  "previousEvent": {
+  "previousBlock": {
     "id": "did:de7adbe7-79f2-425a-9dfb-76a234782f30/blocks/1",
     "hash": "urn:sha256:7eb0603c9a3982284c7db09b1eb40bc85a1177bdc594b027fba0e746b79db15b"
   },
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-14T19:47:15Z",
     "creator": "http://example.com/keys/789",
     "signatureValue": "JoS27wqa...BFMgXIMw=="
@@ -1176,7 +1183,7 @@ Transfer-Encoding: chunked
 
 
   <section>
-    <h3>Query Service</h3>
+    <h3>Ledger Query Service</h3>
 
     <p>
 The current state machine of a ledger may be queried by performing an
@@ -1216,7 +1223,7 @@ An example query of a state machine in a ledger is shown below:
     </p>
 
     <pre class="example highlight" title="">
-GET /ledgers/example/state?query=upc:956578900933 HTTP/1.1
+GET /ledger-agents/example/query?id=http://www.coupon-clearing.org/coupons/486211708 HTTP/1.1
 Host: example.com
 Connection: keep-alive
 Accept: application/ld+json, application/json, text/plain, */*
@@ -1275,7 +1282,7 @@ If the query is successful, a HTTP 200 response is expected:
     "hash": "urn:sha256:0000000000000000000000000000000000000000000000000000000000000000"
   },
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-05T11:47:26Z",
     "creator": "http://blue.example.com/keys/j37f8",
     "signatureValue": "RG+t2EbnMKr4zIwgncLHTb/JvAZ/EIXmTXrrad7DBdlchKPPC9j91N793eHY5UYx4zx7PTDnU2HlW9zqQD1EMBwI7TtqE7BfvxOFodjKJ/Aw16vpAmw2h2Jo9NBu4BvFWsLPCiMLHuW7Vxo7XDkGVfaZUqk/X2q/xpRmqJ1tOlNgivUH8bIm/TUAG3g90DMN9s5zImVyB4B20zMJk8K50BbpHYKUVNWCaHnv9F4VvUUa+AdNeNlC8W1F5j2WChyXzd+51bervxQErZUDFyocW/xEYPvJXPSGnL0ARBDggKQDe1M3bg8w7GnMGrJBieNZAuK2mxOtF2rOPDU3oMk3ZQ=="
@@ -1286,7 +1293,7 @@ If the query is successful, a HTTP 200 response is expected:
     <pre class="example highlight" title="Example genesis entry for a verifiable claims / credentials ledger">
 {
   "@context": "https://w3id.org/web-ledger/v1",
-  "id": "https://example.us.gov/ledgers/emergency-response/1",
+  "id": "https://example.us.gov/ledger-agents/emergency-response/1",
   "type": "LedgerConfigurationBlock",
   "storageMechanism": "SequentialList",
   "consensusAlgorithm": {
@@ -1298,7 +1305,7 @@ If the query is successful, a HTTP 200 response is expected:
     ],
     "minimumSignaturesRequired": 1
   },
-  "nextBlock": "https://example.us.gov/ledgers/emergency-response/2",
+  "nextBlock": "https://example.us.gov/ledger-agents/emergency-response/2",
   "signature": {
     "type": "LinkedDataSignature2016",
     "created": "2016-09-19T17:19:52Z",
@@ -1399,9 +1406,9 @@ a hash of that event depending on configuration.
     "hash": "urn:sha256:f04524659baa027ea49e7d0635bc6b1869d3e7d811f6bfefeb3aae1adcae0362"
   },
   "signature": {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-12T18:37:27Z",
-    "creator": "http://dhs2016ledger.digitalbazaar.com/keys/fema-key-1",
+    "creator": "http://ledger.example.com/keys/fema-key-1",
     "signatureValue": "ITv0b9tTIjgBMgu4jUOsuU9Y2t9rsq+rKrbJHfcKWmDQZE1X6VpqKowv3l27WN0w5NyECIkJx6oy94nlM375ivmhQf6iYd6R7IizVBiRiLl3HeNXdaxBpyYMn6OiP8MYVdJt2g5vj+xhP9AadXnRL0TYmE6qH1LtOw42SQtfseQDb8xF1Bsjie7KmKK/G+B1yoKqg1L34NLSAnHpnqRGAen9OEMi0hwBrVD8HIRFkdCehh4T07HRrZe2mwhfY0gOA54j02qWZxidvYUYAV8vax4AhFyk0Vsaibo9yt85uU8Tc8a4e5hjS7nCAya8FMzDd0xEOp1q9MeC5vgJHKz29g=="
   }
 }
@@ -1413,7 +1420,7 @@ a hash of that event depending on configuration.
     "https://w3id.org/web-ledger/v1",
     "https://w3id.org/housing/v1",
   ],
-  "id": "https://vhda.va.us.gov/ledgers/webville/houses/2",
+  "id": "https://vhda.va.us.gov/ledger-agents/webville/houses/2",
   "type": "LedgerStorageBlock",
   "previousBlock": "https://example-consortium.com/private-ledgers/loans/real-estate/1",
   "setObject": [{
@@ -1444,9 +1451,9 @@ a hash of that event depending on configuration.
     "https://w3id.org/web-ledger/v1",
     "https://w3id.org/dhs/credentials/v1",
   ],
-  "id": "https://example.us.gov/ledgers/emergency-response/2",
+  "id": "https://example.us.gov/ledger-agents/emergency-response/2",
   "type": "LedgerStorageBlock",
-  "previousBlock": "https://example.us.gov/ledgers/emergency-response/1",
+  "previousBlock": "https://example.us.gov/ledger-agents/emergency-response/1",
   "setObject": [{
     "id": "https://example.us.gov/credentials/234234542",
     "type": ["Credential", "EmergencyResponseCredential"]
@@ -1541,22 +1548,22 @@ a hash of that event depending on configuration.
     "hash": "urn:sha256:0877a494ce1705117f917a3af3fc48190b1fdbca04fdba8e995fd6c15fb2fe71"
   },
   "signature": [{
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-12T19:54:12Z",
     "creator": "https://notary1.example.org/keys/124",
     "signatureValue": "skeJ4...lBUiI858="
   }, {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-12T19:54:32Z",
     "creator": "https://notary2.example.org/keys/f31",
     "signatureValue": "iamOjOGncO...gRXfsG0="
   }, {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-12T19:54:56Z",
     "creator": "https://notary3.example.org/keys/35",
     "signatureValue": "cPehH...iI858="
   }, {
-    "type": "LinkedDataSignature2015",
+    "type": "RsaSignature2016",
     "created": "2016-10-12T19:54:23Z",
     "creator": "https://notary4.example.org/keys/ugref2",
     "signatureValue": "hMaD22...ONwzsgo="
@@ -1582,9 +1589,9 @@ to a compressed/checksummed file?
     <pre id="example-checkpoint-block" class="example highlight" title="Example checkpoint event used to serialize">
 {
   "@context": "https://w3id.org/web-ledger/v1",
-  "id": "https://example.org/ledgers/example/6372463",
+  "id": "https://example.org/ledger-agents/example/6372463",
   "type": "LedgerCheckpointBlock",
-  "checkpointLog": "https://example.org/ledgers/example/checkpoints/132",
+  "checkpointLog": "https://example.org/ledger-agents/example/checkpoints/132",
   "checkpointLogHash": "urn:sha256:7fa3b9eaa8d92d2b87abf83d88a92ff23",
   "signature": [{
     "type": "LinkedDataSignature2016",
@@ -1609,14 +1616,14 @@ to a compressed/checksummed file?
     "https://w3id.org/web-ledger/v1",
     "https://w3id.org/cryptocurrencies/v1"
   ],
-  "id": "https://example.org/ledgers/example/5",
+  "id": "https://example.org/ledger-agents/example/5",
   "type": "LedgerStorageBlock",
-  "previousBlock": "https://example.org/ledgers/example/4",
+  "previousBlock": "https://example.org/ledger-agents/example/4",
   "addsObject": [{
     "transaction": [{
       "source": "https://example.org/accounts/jane/7",
       "destination": "https://foo.com/accounts/bob/3",
-      "remoteLedger": "https://foo.com/ledgers/blah/3445",
+      "remoteLedger": "https://foo.com/ledger-agents/blah/3445",
       "transfer": {
         "amount": "23.45",
         "currency": "USD"
