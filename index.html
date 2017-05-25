@@ -196,7 +196,7 @@ package these events into a data structure called a <a>block</a>. These
 referred to as a <a>blockchain</a>.
   </p>
   <figure>
-    <img src="diagrams/blockchain.svg" />
+    <img style="max-width: 20em;" src="diagrams/blocks.svg" />
     <figcaption>
 Events are typically packaged into blocks for the purposes of storage
 efficiency.
@@ -231,11 +231,31 @@ verified using cryptography.
   </figure>
 
   <p>
+These <a>cryptographic ledgers</a> operate in an ecosystem consisting of the
+following actors. A <a>ledger node</a> modifies an instance of a
+<a>cryptographic ledger</a> based on the current configuration of the ledger.
+The <a>ledger node</a> tracks a set of pending ledger events that are
+candidates for being written to the ledger and writes them to the ledger
+when it believes consensus has been reached. A <a>ledger agent</a> may be
+used by any system that communicates over HTTP to instruct a
+<a>ledger node</a> to perform a specified action on the ledger.
+
+  <figure>
+    <img src="diagrams/ecosystem.svg" />
+    <figcaption>
+The ecosystem described by this specification consists of a
+<a>ledger agent</a>, a <a>ledger node</a>, and a <a>ledger</a>.
+    </figcaption>
+  </figure>
+
+
+  <p>
 This specification details an extensible data model and syntax for expressing
-cryptographic ledgers. The data model in this specification is designed to
-be protocol-agnostic and flexible, supporting pluggability of consensus
-algorithms, various data structures for recording history, and enabling a
-wide range of data types to be stored in the ledger.
+cryptographic ledgers and a protocol for reading and writing to ledgers.
+The data model in this specification is designed to be protocol-agnostic
+and flexible, supporting pluggability of consensus algorithms, various data
+structures for recording history, and enabling a wide range of data types
+to be stored in the ledger.
   </p>
 
   <section class="informative">
