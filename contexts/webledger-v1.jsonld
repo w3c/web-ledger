@@ -71,6 +71,7 @@
     "proofValue": "sec:proofValue",
     "publicKey": {"@id": "sec:publicKey", "@type": "@id", "@container": "@set"},
     "publicKeyPem": "sec:publicKeyPem",
+    "record": {"@id": "wl:record", "@type": "@id", "@container": ["@graph", "@set"]},
     "recommendedElector": {"@id": "wl:recommendedElectors", "@container": "@set"},
     "requireEventValidation": "wl:requireEventValidation",
     "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},
