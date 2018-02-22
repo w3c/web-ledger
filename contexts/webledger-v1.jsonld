@@ -83,7 +83,7 @@
     "publicKey": {"@id": "sec:publicKey", "@type": "@id", "@container": "@set"},
     "publicKeyBase58": "sec:publicKeyBase58",
     "publicKeyPem": "sec:publicKeyPem",
-    "record": {"@id": "wl:record", "@type": "@id", "@container": ["@graph", "@set"]},
+    "record": {"@id": "wl:record", "@type": "@id", "@container": "@graph"},
     "recommendedElector": {"@id": "wl:recommendedElector", "@container": "@set"},
     "requiredProof": "sec:requiredProof",
     "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},
