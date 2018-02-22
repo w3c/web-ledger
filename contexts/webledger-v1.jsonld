@@ -9,7 +9,7 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "schema": "http://schema.org/",
     "sec": "https://w3id.org/security#",
-    "wl": "https://w3id.org/wl#",
+    "wl": "https://w3id.org/webledger#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
     "Config": "wl:Config",
