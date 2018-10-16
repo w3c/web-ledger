@@ -65,7 +65,7 @@
     "digestAlgorithm": "sec:digestAlgorithm",
     "digestValue": "sec:digestValue",
     "domain": "sec:domain",
-    "elector": {"@id": "wl:elector", "@type": "@id", "@container": "@set"},
+    "elector": {"@id": "wl:elector", "@type": "@id"},
     "electorSelectionMethod": {"@id": "wl:electorSelectionMethod", "@type": "@id"},
     "electorPool": {"@id": "wl:electorPool", "@type": "@id"},
     "equihashParameterK": {"@id": "sec:equihashParameterK", "@type": "xsd:integer"},
