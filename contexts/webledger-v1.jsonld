@@ -18,7 +18,6 @@
     "Continuity2017Elector": "wl:Continuity2017Elector",
     "Continuity2017GuarantorElector": "wl:Continuity2017GuarantorElector",
     "Continuity2017Peer": "wl:Continuity2017Peer",
-    "Continuity2017RecoveryElector": "wl:Continuity2017RecoveryElector",
     "ContinuityMergeEvent": "wl:ContinuityMergeEvent",
     "CreateWebLedgerRecord": "wl:CreateWebLedgerRecord",
     "UpdateWebLedgerRecord": "wl:UpdateWebLedgerRecord",
