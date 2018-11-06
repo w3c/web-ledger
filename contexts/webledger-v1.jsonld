@@ -82,6 +82,7 @@
     "ledger": {"@id": "wl:ledger", "@type": "@id"},
     "ledgerConfiguration": {"@id": "wl:ledgerConfiguration", "@type": "@id", "@container": "@graph"},
     "ledgerConfigurationValidator": {"@id": "wl:ledgerConfigurationValidator", "@type": "@id", "@container": "@set"},
+    "maximumElectorCount": {"@id": "wl:maximumElectorCount", "@type": "xsd:integer"},    
     "minimumProofsRequired": "sec:minimumProofsRequired",
     "minimumSignaturesRequired": "wl:minimumSignaturesRequired",
     "name": "schema:name",
