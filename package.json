@@ -1,0 +1,14 @@
+{
+  "name": "web-ledger-context",
+  "version": "0.0.1-dev",
+  "description": "Web Ledger Context",
+  "main": "js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/w3c/web-ledger"
+  },
+  "bugs": {
+    "url": "https://github.com/w3c/web-ledger/issues"
+  },
+  "homepage": "https://github.com/w3c/web-ledger#readme"
+}
