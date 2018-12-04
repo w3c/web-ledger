@@ -41,6 +41,7 @@
 
     "allowedAction": "sec:allowedAction",
     "approvedSigner": "wl:approvedSigner",
+    "basisBlockHeight": "wl:basisBlockHeight",
     "blockHeight": "wl:blockHeight",
     "canonicalizationAlgorithm": "sec:canonicalizationAlgorithm",
     "capability": {"@id": "sec:capability", "@type": "@id"},
