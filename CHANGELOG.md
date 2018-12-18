@@ -1,6 +1,6 @@
 # web-ledger-context ChangeLog
 
-## 2.0.0 - TBD
+## 2.0.0 - 2018-12-18
 
 ### Changed
 - Add `targetNode`.
