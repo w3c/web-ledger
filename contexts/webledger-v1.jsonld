@@ -115,6 +115,7 @@
     "recommendedElector": {"@id": "wl:recommendedElector", "@container": "@set"},
     "requiredProof": "sec:requiredProof",
     "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},
+    "sequence": {"@id": "jldp:sequence", "@type": "xsd:integer"},    
     "targetNode": {"@id": "wl:targetNode", "@type": "@id"},
     "treeHash": "wl:treeHash",
     "validatorFilter": {"@id": "wl:validatorFilter", "@type": "@id"},
