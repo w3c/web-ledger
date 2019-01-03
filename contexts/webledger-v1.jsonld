@@ -41,15 +41,19 @@
 
     "allowedAction": "sec:allowedAction",
     "approvedSigner": "wl:approvedSigner",
+    "assertionMethod": {"@id": "sec:assertionMethod", "@type": "@id", "@container": "@set"},
+    "authentication": {"@id": "sec:authenticationMethod", "@type": "@id", "@container": "@set"},
     "basisBlockHeight": "wl:basisBlockHeight",
     "blockHeight": "wl:blockHeight",
     "canonicalizationAlgorithm": "sec:canonicalizationAlgorithm",
     "capability": {"@id": "sec:capability", "@type": "@id"},
     "capabilityAction": "sec:capabilityAction",
-    "capabilityDelegation": {"@id": "sec:capabilityDelegationSuite", "@type": "@id", "@container": "@set"},
-    "capabilityInvocation": {"@id": "sec:capabilityInvocationSuite", "@type": "@id", "@container": "@set"},
+    "capabilityChain": {"@id": "sec:capabilityChain", "@type": "@id", "@container": "@list"},
+    "capabilityDelegation": {"@id": "sec:capabilityDelegationMethod", "@type": "@id", "@container": "@set"},
+    "capabilityInvocation": {"@id": "sec:capabilityInvocationMethod", "@type": "@id", "@container": "@set"},
     "capabilityStatusList": {"@id": "sec:capabilityStatusList", "@type": "@id"},
     "caveat": {"@id": "sec:caveat", "@type": "@id", "@container": "@set"},
+    "challenge": "sec:challenge",
     "consensusMethod": {"@id": "wl:consensusMethod", "@type": "@vocab"},
     "consensusProofHash": {"@id": "wl:consensusProofHash", "@container": "@set"},
     "controller": {"@id": "sec:controller", "@type": "@id"},
@@ -80,6 +84,7 @@
     "operationHash": {"@id": "wl:operationHash", "@container": "@set"},
     "operationValidator": {"@id": "wl:operationValidator", "@type": "@id", "@container": "@set"},
     "owner": {"@id": "sec:owner", "@type": "@id"},
+    "parentCapability": {"@id": "sec:parentCapability", "@type": "@id"},
     "parentHash": {"@id": "wl:parentHash", "@container": "@set"},
     "recordPatch": {
       "@id": "wl:recordPatch",
@@ -115,11 +120,12 @@
     "recommendedElector": {"@id": "wl:recommendedElector", "@container": "@set"},
     "requiredProof": "sec:requiredProof",
     "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},
-    "sequence": {"@id": "jldp:sequence", "@type": "xsd:integer"},    
+    "sequence": {"@id": "jldp:sequence", "@type": "xsd:integer"},
     "targetNode": {"@id": "wl:targetNode", "@type": "@id"},
     "treeHash": "wl:treeHash",
     "validatorFilter": {"@id": "wl:validatorFilter", "@type": "@id"},
     "validatorFilterByType": {"@id": "wl:validatorFilterType", "@type": "@vocab"},
+    "verificationMethod": {"@id": "sec:verificationMethod", "@type": "@id"},
     "voter": {"@id": "wl:voter", "@type": "@id"}
   }
 }
