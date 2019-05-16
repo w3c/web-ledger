@@ -1,5 +1,13 @@
 # web-ledger-context ChangeLog
 
+## 5.0.0 - TBD
+
+### Changed
+- **BREAKING**: Implement a new module structure. 
+- Build and distribute static browser version with all contexts.
+- Export a `contexts` Map associating context URIs to contexts.
+- Export a `constants` Object associating short ids to contexts URIs.
+
 ## 4.0.0 - 2019-01-03
 
 ### Changed

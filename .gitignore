@@ -1,2 +1,4 @@
 *.sw[nop]
 *~
+dist
+node_modules
